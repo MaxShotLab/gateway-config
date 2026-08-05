@@ -488,8 +488,8 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash": {
-		"displayName": "DeepSeek V4 Flash",
+	"deepseek/deepseek-v4-flash-0731": {
+		"displayName": "DeepSeek V4 Flash 0731",
 		"description": "DeepSeek V4 高速版，快速响应与成本均衡",
 		"tier": "economy",
 		"chatEnabled": true,
