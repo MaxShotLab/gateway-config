@@ -211,7 +211,7 @@
 		"recommended": true,
 		"chatEnabled": true,
 		"chatRank": 17,
-		"chatDefault": true,
+		"chatDefault": false,
 		"capabilities": {
 			"files": true,
 			"vision": false,
@@ -494,6 +494,7 @@
 		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 52,
+		"chatDefault": true,
 		"capabilities": {
 			"files": true,
 			"vision": false,
