@@ -1,0 +1,773 @@
+{
+	"anthropic/claude-fable-5": {
+		"displayName": "Claude Fable 5",
+		"description": "Anthropic 最新旗舰，复杂推理与长文写作",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 10,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking": {
+					"type": "enabled",
+					"budget_tokens": 10000
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-5.6-luna-pro": {
+		"displayName": "GPT-5.6 Luna Pro",
+		"description": "GPT-5.6 系列敏捷款，快速响应",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 11,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"reasoning_effort": "low"
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-5.6-sol-pro": {
+		"displayName": "GPT-5.6 Sol Pro",
+		"description": "GPT-5.6 系列均衡款，全能通用",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 12,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"reasoning_effort": "medium"
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-5.6-terra-pro": {
+		"displayName": "GPT-5.6 Terra Pro",
+		"description": "GPT-5.6 系列旗舰款，全能力拉满",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 13,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"reasoning_effort": "high"
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-5.5": {
+		"displayName": "GPT-5.5",
+		"description": "OpenAI 新一代旗舰，多模态通用强模型",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 14,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"reasoning_effort": "medium"
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"google/gemini-3.1-pro-preview": {
+		"displayName": "Gemini 3.1 Pro",
+		"description": "Google 旗舰，原生多模态与超长上下文",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 15,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": true,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking_config": {
+					"thinking_budget": -1
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"anthropic/claude-sonnet-5": {
+		"displayName": "Claude Sonnet 5",
+		"description": "Anthropic 通用旗舰，速度与能力均衡，推荐首选",
+		"tier": "flagship",
+		"recommended": true,
+		"chatEnabled": true,
+		"chatRank": 16,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking": {
+					"type": "enabled",
+					"budget_tokens": 10000
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"z-ai/glm-5.2": {
+		"displayName": "GLM-5.2",
+		"description": "智谱旗舰，中文表现优异，均衡推理与对话（默认）",
+		"tier": "flagship",
+		"recommended": true,
+		"chatEnabled": true,
+		"chatRank": 17,
+		"chatDefault": true,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking": {
+					"type": "enabled"
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-5.2-pro": {
+		"displayName": "GPT-5.2 Pro",
+		"description": "GPT-5 系高阶款，深度推理更强",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 18,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"reasoning_effort": "high"
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"deepseek/deepseek-r1": {
+		"displayName": "DeepSeek R1",
+		"description": "开源深度推理模型，数学与逻辑强",
+		"tier": "reasoning",
+		"chatEnabled": true,
+		"chatRank": 20,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/o3": {
+		"displayName": "OpenAI o3",
+		"description": "深度推理模型，适合数学、代码与复杂分析",
+		"tier": "reasoning",
+		"chatEnabled": true,
+		"chatRank": 21,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"moonshotai/kimi-k2-thinking": {
+		"displayName": "Kimi K2 Thinking",
+		"description": "月之暗面推理款，深度思考长上下文",
+		"tier": "reasoning",
+		"chatEnabled": true,
+		"chatRank": 22,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-5.1": {
+		"displayName": "GPT-5.1",
+		"description": "GPT-5 系列均衡款，性价比高",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 30,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"reasoning_effort": "medium"
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"google/gemini-3.5-flash": {
+		"displayName": "Gemini 3.5 Flash",
+		"description": "Google 高速旗舰款，低延迟多模态",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 31,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": true,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking_config": {
+					"thinking_budget": -1
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"google/gemini-2.5-pro": {
+		"displayName": "Gemini 2.5 Pro",
+		"description": "Google 上代旗舰，多模态稳建",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 32,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking_config": {
+					"thinking_budget": -1
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"anthropic/claude-haiku-4.5": {
+		"displayName": "Claude Haiku 4.5",
+		"description": "Anthropic 轻量快速款，适合高并发场景",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 33,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking": {
+					"type": "enabled",
+					"budget_tokens": 10000
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"google/gemini-2.5-flash": {
+		"displayName": "Gemini 2.5 Flash",
+		"description": "Google 高速款，低延迟多模态",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 34,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"thinking_config": {
+					"thinking_budget": -1
+				}
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"deepseek-ai/deepseek-v4-flash": {
+		"displayName": "DeepSeek V4 Flash",
+		"description": "DeepSeek V4 高速版，快速响应与成本均衡",
+		"tier": "economy",
+		"chatEnabled": true,
+		"chatRank": 52,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"deepseek/deepseek-v4-pro": {
+		"displayName": "DeepSeek V4 Pro",
+		"description": "开源通用旗舰，中文与代码均衡",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 35,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"moonshotai/kimi-k3": {
+		"displayName": "Kimi K3",
+		"description": "月之暗面新一代旗舰，长上下文与推理能力均衡",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 36,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"qwen/qwen3.7-max": {
+		"displayName": "Qwen3.7 Max",
+		"description": "阿里通义旗舰，中文与推理强",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 37,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"enable_thinking": true,
+				"thinking_budget": 128
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"x-ai/grok-4.5": {
+		"displayName": "Grok 4.5",
+		"description": "xAI 旗舰，实时信息与个性表达",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 38,
+		"capabilities": {
+			"files": false,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"moonshotai/kimi-k2.6": {
+		"displayName": "Kimi K2.6",
+		"description": "月之暗面长上下文模型，适合文档处理",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 39,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-5-mini": {
+		"displayName": "GPT-5 Mini",
+		"description": "GPT-5 系列轻量款，经济快速",
+		"tier": "economy",
+		"chatEnabled": true,
+		"chatRank": 50,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"reasoning": {
+				"reasoning_effort": "medium"
+			},
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openai/gpt-4o-mini": {
+		"displayName": "GPT-4o mini",
+		"description": "OpenAI 经济多模态，支持图像",
+		"tier": "economy",
+		"chatEnabled": true,
+		"chatRank": 51,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"qwen/qwen3-coder": {
+		"displayName": "Qwen3 Coder",
+		"description": "通义代码专项，编程与工程强",
+		"tier": "code",
+		"chatEnabled": true,
+		"chatRank": 60,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"qwen/qwen3-coder-plus": {
+		"displayName": "Qwen3 Coder Plus",
+		"description": "通义代码加强款，复杂工程与重构",
+		"tier": "code",
+		"chatEnabled": true,
+		"chatRank": 61,
+		"capabilities": {
+			"files": true,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	},
+	"openrouter/free": {
+		"displayName": "OpenRouter Free",
+		"description": "OpenRouter 自动路由到可用的免费模型",
+		"tier": "free",
+		"chatEnabled": true,
+		"chatRank": 69,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": false
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [{
+					"type": "openrouter:web_search",
+					"parameters": {
+						"engine": "exa",
+						"max_results": 5
+					}
+				}]
+			}
+		}
+	}
+}
