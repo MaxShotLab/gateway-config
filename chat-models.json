@@ -488,7 +488,7 @@
 			}
 		}
 	},
-	"deepseek-ai/deepseek-v4-flash": {
+	"deepseek/deepseek-v4-flash": {
 		"displayName": "DeepSeek V4 Flash",
 		"description": "DeepSeek V4 高速版，快速响应与成本均衡",
 		"tier": "economy",
