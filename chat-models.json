@@ -389,33 +389,6 @@
 			}
 		}
 	},
-	"openrouter/free": {
-		"displayName": "OpenRouter Free",
-		"description": "自动路由到可用免费模型，能力与可用性可能变化",
-		"tier": "free",
-		"chatEnabled": true,
-		"chatRank": 140,
-		"capabilities": {
-			"files": false,
-			"vision": false,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": false
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			}
-		}
-	},
 	"openai/gpt-5.6-luna-pro": {
 		"displayName": "GPT-5.6 Luna Pro",
 		"description": "低推理延迟，适合快速响应与轻量任务",
