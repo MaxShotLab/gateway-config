@@ -1,7 +1,7 @@
 {
 	"deepseek/deepseek-v4-flash": {
 		"displayName": "DeepSeek V4 Flash",
-		"description": "快速日常对话，兼顾中文表现与使用成本",
+		"description": "快速日常对话，兼顾中文表现、推理能力与使用成本",
 		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 10,
@@ -11,9 +11,14 @@
 			"vision": false,
 			"audio": false,
 			"webSearch": true,
-			"reasoning": false
+			"reasoning": true
 		},
 		"requestPatches": {
+			"reasoning": {
+				"reasoning": {
+					"effort": "high"
+				}
+			},
 			"webSearch": {
 				"tools": [
 					{
@@ -43,9 +48,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking": {
-					"type": "enabled",
-					"budget_tokens": 10000
+				"reasoning": {
+					"effort": "high"
 				}
 			},
 			"webSearch": {
@@ -63,8 +67,8 @@
 	},
 	"openai/gpt-5.6-sol-pro": {
 		"displayName": "GPT-5.6 Sol Pro",
-		"description": "均衡推理，适合通用分析与专业任务",
-		"tier": "balanced",
+		"description": "旗舰推理模型，适合复杂专业任务、代码与深度分析",
+		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 30,
 		"capabilities": {
@@ -76,7 +80,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"reasoning_effort": "medium"
+				"reasoning": {
+					"effort": "medium"
+				}
 			},
 			"webSearch": {
 				"tools": [
@@ -93,8 +99,8 @@
 	},
 	"openai/gpt-5.6-terra-pro": {
 		"displayName": "GPT-5.6 Terra Pro",
-		"description": "深度推理，适合高难度分析、数学与代码",
-		"tier": "reasoning",
+		"description": "均衡能力与成本，适合通用专业任务与代码",
+		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 40,
 		"capabilities": {
@@ -106,7 +112,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"reasoning_effort": "high"
+				"reasoning": {
+					"effort": "medium"
+				}
 			},
 			"webSearch": {
 				"tools": [
@@ -123,7 +131,7 @@
 	},
 	"google/gemini-3.1-pro-preview": {
 		"displayName": "Gemini 3.1 Pro",
-		"description": "原生多模态，适合图片、音频与长上下文",
+		"description": "原生多模态，适合图片、音频、长上下文与复杂推理",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 50,
@@ -136,8 +144,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking_config": {
-					"thinking_budget": -1
+				"reasoning": {
+					"effort": "medium"
 				}
 			},
 			"webSearch": {
@@ -155,7 +163,7 @@
 	},
 	"z-ai/glm-5.2": {
 		"displayName": "GLM-5.2",
-		"description": "中文写作、总结与复杂分析表现均衡",
+		"description": "中文写作、总结、代码与复杂分析表现均衡",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 60,
@@ -168,8 +176,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking": {
-					"type": "enabled"
+				"reasoning": {
+					"effort": "high"
 				}
 			},
 			"webSearch": {
@@ -187,7 +195,7 @@
 	},
 	"moonshotai/kimi-k3": {
 		"displayName": "Kimi K3",
-		"description": "适合长文档、长上下文与综合任务",
+		"description": "多模态推理模型，适合长上下文、代码与复杂 Agent 任务",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 70,
@@ -196,9 +204,14 @@
 			"vision": true,
 			"audio": false,
 			"webSearch": true,
-			"reasoning": false
+			"reasoning": true
 		},
 		"requestPatches": {
+			"reasoning": {
+				"reasoning": {
+					"effort": "high"
+				}
+			},
 			"webSearch": {
 				"tools": [
 					{
@@ -214,7 +227,7 @@
 	},
 	"qwen/qwen3.7-max": {
 		"displayName": "Qwen3.7 Max",
-		"description": "中文与推理能力均衡，适合通用专业任务",
+		"description": "中文、代码与推理能力均衡，适合通用专业任务",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 80,
@@ -227,8 +240,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"enable_thinking": true,
-				"thinking_budget": 128
+				"reasoning": {
+					"effort": "high"
+				}
 			},
 			"webSearch": {
 				"tools": [
@@ -245,8 +259,8 @@
 	},
 	"deepseek/deepseek-v4-pro": {
 		"displayName": "DeepSeek V4 Pro",
-		"description": "适合中文、代码与高质量通用任务",
-		"tier": "balanced",
+		"description": "高质量中文、代码与复杂推理，适合专业任务",
+		"tier": "reasoning",
 		"chatEnabled": true,
 		"chatRank": 90,
 		"capabilities": {
@@ -254,9 +268,14 @@
 			"vision": false,
 			"audio": false,
 			"webSearch": true,
-			"reasoning": false
+			"reasoning": true
 		},
 		"requestPatches": {
+			"reasoning": {
+				"reasoning": {
+					"effort": "high"
+				}
+			},
 			"webSearch": {
 				"tools": [
 					{
@@ -272,7 +291,7 @@
 	},
 	"google/gemini-3.5-flash": {
 		"displayName": "Gemini 3.5 Flash",
-		"description": "快速多模态，适合图片、音频与日常任务",
+		"description": "快速多模态，适合图片、音频、代码与日常任务",
 		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 100,
@@ -285,8 +304,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking_config": {
-					"thinking_budget": -1
+				"reasoning": {
+					"effort": "medium"
 				}
 			},
 			"webSearch": {
@@ -304,7 +323,7 @@
 	},
 	"anthropic/claude-fable-5": {
 		"displayName": "Claude Fable 5",
-		"description": "最高能力档，适合复杂推理与长篇写作",
+		"description": "最高能力档，适合复杂推理、长程 Agent 与长篇写作",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 110,
@@ -317,9 +336,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking": {
-					"type": "enabled",
-					"budget_tokens": 10000
+				"reasoning": {
+					"effort": "high"
 				}
 			},
 			"webSearch": {
@@ -337,7 +355,7 @@
 	},
 	"x-ai/grok-4.5": {
 		"displayName": "Grok 4.5",
-		"description": "适合实时信息、视觉理解与开放式表达",
+		"description": "适合复杂推理、代码、视觉理解与开放式表达",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 120,
@@ -346,9 +364,14 @@
 			"vision": true,
 			"audio": false,
 			"webSearch": true,
-			"reasoning": false
+			"reasoning": true
 		},
 		"requestPatches": {
+			"reasoning": {
+				"reasoning": {
+					"effort": "high"
+				}
+			},
 			"webSearch": {
 				"tools": [
 					{
@@ -404,7 +427,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"reasoning_effort": "low"
+				"reasoning": {
+					"effort": "low"
+				}
 			},
 			"webSearch": {
 				"tools": [
@@ -434,7 +459,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"reasoning_effort": "medium"
+				"reasoning": {
+					"effort": "medium"
+				}
 			},
 			"webSearch": {
 				"tools": [
@@ -464,7 +491,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"reasoning_effort": "high"
+				"reasoning": {
+					"effort": "high"
+				}
 			},
 			"webSearch": {
 				"tools": [
@@ -575,7 +604,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"reasoning_effort": "medium"
+				"reasoning": {
+					"effort": "medium"
+				}
 			},
 			"webSearch": {
 				"tools": [
@@ -593,7 +624,7 @@
 	"google/gemini-2.5-pro": {
 		"displayName": "Gemini 2.5 Pro",
 		"description": "上一代多模态旗舰模型",
-		"tier": "balanced",
+		"tier": "flagship",
 		"chatEnabled": false,
 		"chatRank": 280,
 		"capabilities": {
@@ -605,8 +636,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking_config": {
-					"thinking_budget": -1
+				"reasoning": {
+					"effort": "high"
 				}
 			},
 			"webSearch": {
@@ -637,9 +668,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking": {
-					"type": "enabled",
-					"budget_tokens": 10000
+				"reasoning": {
+					"effort": "medium"
 				}
 			},
 			"webSearch": {
@@ -670,8 +700,8 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"thinking_config": {
-					"thinking_budget": -1
+				"reasoning": {
+					"effort": "medium"
 				}
 			},
 			"webSearch": {
@@ -689,18 +719,23 @@
 	},
 	"moonshotai/kimi-k2.6": {
 		"displayName": "Kimi K2.6",
-		"description": "上一代长上下文文档模型",
+		"description": "上一代多模态长上下文模型，支持思考与非思考模式",
 		"tier": "balanced",
 		"chatEnabled": false,
 		"chatRank": 310,
 		"capabilities": {
 			"files": true,
-			"vision": false,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
-			"reasoning": false
+			"reasoning": true
 		},
 		"requestPatches": {
+			"reasoning": {
+				"reasoning": {
+					"enabled": true
+				}
+			},
 			"webSearch": {
 				"tools": [
 					{
@@ -729,7 +764,9 @@
 		},
 		"requestPatches": {
 			"reasoning": {
-				"reasoning_effort": "medium"
+				"reasoning": {
+					"effort": "medium"
+				}
 			},
 			"webSearch": {
 				"tools": [
