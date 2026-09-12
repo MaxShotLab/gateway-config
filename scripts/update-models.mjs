@@ -24,12 +24,12 @@ import { fileURLToPath } from "node:url";
 
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 const DAY_MS = 86_400_000;
-const MODEL_COUNT = 30;
+const MODEL_COUNT = 24;
 const CATEGORY_ORDER = ["flagship", "reasoning", "balanced", "economy", "code", "free"];
 const ALLOCATION_ORDER = ["free", "code", "flagship", "reasoning", "economy", "balanced"];
 
 const DEFAULT_STRATEGY = {
-  quotas: { flagship: 8, reasoning: 4, balanced: 6, economy: 4, code: 3, free: 5 },
+  quotas: { flagship: 6, reasoning: 3, balanced: 5, economy: 3, code: 3, free: 4 },
   weights: { weekly: 25, monthly: 20, newModel: 15, quality: 15, reliability: 10, performance: 10, value: 5 },
   filters: {
     requirePrice: true,
