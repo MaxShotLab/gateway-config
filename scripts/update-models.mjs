@@ -104,14 +104,27 @@ function openRouterHeaders(apiKey, accept = "application/json") {
   };
 }
 
-async function openRouterFetch(apiKey, pathname, timeoutMs = 20_000) {
-  const response = await fetch(`${OPENROUTER_BASE_URL}${pathname}`, {
-    headers: openRouterHeaders(apiKey),
-    signal: AbortSignal.timeout(timeoutMs),
-  });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(body?.error?.message || `OpenRouter returned HTTP ${response.status}`);
-  return body;
+async function openRouterFetch(apiKey, pathname, timeoutMs = 20_000, maxRetries = 3) {
+  let lastError;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(`${OPENROUTER_BASE_URL}${pathname}`, {
+        headers: openRouterHeaders(apiKey),
+        signal: AbortSignal.timeout(timeoutMs),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body?.error?.message || `OpenRouter returned HTTP ${response.status}`);
+      return body;
+    } catch (err) {
+      lastError = err;
+      if (attempt < maxRetries) {
+        const delay = attempt * 1500;
+        console.warn(`  [retry ${attempt}/${maxRetries}] ${pathname} failed (${err.message}). Retrying in ${delay}ms...`);
+        await sleep(delay);
+      }
+    }
+  }
+  throw lastError;
 }
 
 // ─── Data Sources ────────────────────────────────────────────────────────────
@@ -139,17 +152,30 @@ async function fetchSources(apiKey, now = new Date()) {
 
 // ─── new-api supported models ────────────────────────────────────────────────
 
-async function fetchSupportedModelIds(url, token) {
+async function fetchSupportedModelIds(url, token, maxRetries = 3) {
   console.log(`Fetching supported models from new-api: ${url}/models`);
-  const response = await fetch(`${url}/models`, {
-    headers: { authorization: `Bearer ${token}`, accept: "application/json" },
-    signal: AbortSignal.timeout(15_000),
-  });
-  if (!response.ok) throw new Error(`new-api returned HTTP ${response.status}`);
-  const body = await response.json();
-  const ids = new Set(asArray(body.data).map((m) => m.id).filter(Boolean));
-  console.log(`  supported models: ${ids.size}`);
-  return ids;
+  let lastError;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(`${url}/models`, {
+        headers: { authorization: `Bearer ${token}`, accept: "application/json" },
+        signal: AbortSignal.timeout(15_000),
+      });
+      if (!response.ok) throw new Error(`new-api returned HTTP ${response.status}`);
+      const body = await response.json();
+      const ids = new Set(asArray(body.data).map((m) => m.id).filter(Boolean));
+      console.log(`  supported models: ${ids.size}`);
+      return ids;
+    } catch (err) {
+      lastError = err;
+      if (attempt < maxRetries) {
+        const delay = attempt * 1500;
+        console.warn(`  [retry ${attempt}/${maxRetries}] new-api fetch failed (${err.message}). Retrying in ${delay}ms...`);
+        await sleep(delay);
+      }
+    }
+  }
+  throw lastError;
 }
 
 // ─── Endpoint Health ─────────────────────────────────────────────────────────
@@ -611,6 +637,7 @@ async function main() {
 
 main().catch((error) => {
   console.error(`\nFatal error: ${error.message}`);
+  if (error.cause) console.error("Cause:", error.cause);
   if (error.stack) console.error(error.stack);
   process.exit(1);
 });
