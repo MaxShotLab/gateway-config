@@ -31,9 +31,9 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash-0731": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
-		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
+	"z-ai/glm-5.3": {
+		"displayName": "Z.ai: GLM 5.3",
+		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
 		"tier": "code",
 		"chatEnabled": true,
 		"chatRank": 20,
@@ -63,15 +63,15 @@
 			}
 		}
 	},
-	"openai/gpt-5.6-luna": {
-		"displayName": "OpenAI: GPT-5.6 Luna",
-		"description": "GPT-5.6 Luna is a fast, cost-efficient model in OpenAI's GPT-5.6 series. It is suited for high-volume, latency-sensitive tasks such as chat, classification, and lightweight agentic workflows, providing capable reasoning for...",
+	"deepseek/deepseek-v4-flash-0731": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
+		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
 		"tier": "code",
 		"chatEnabled": true,
 		"chatRank": 30,
 		"capabilities": {
-			"files": true,
-			"vision": true,
+			"files": false,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -95,15 +95,16 @@
 			}
 		}
 	},
-	"tencent/hy4-preview": {
-		"displayName": "Tencent: Hy4 preview",
-		"description": "Tencent: Hy4 preview is a mixture-of-experts model from Tencent, with 49B active parameters out of 770B total. It is designed for coding agents, complex tool-use workflows, and productivity tasks that...",
-		"tier": "reasoning",
+	"openai/gpt-5.6-luna": {
+		"displayName": "OpenAI: GPT-5.6 Luna",
+		"description": "GPT-5.6 Luna is a fast, cost-efficient model in OpenAI's GPT-5.6 series. It is suited for high-volume, latency-sensitive tasks such as chat, classification, and lightweight agentic workflows, providing capable reasoning for...",
+		"tier": "flagship",
+		"recommended": true,
 		"chatEnabled": true,
 		"chatRank": 40,
 		"capabilities": {
-			"files": false,
-			"vision": false,
+			"files": true,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -131,7 +132,6 @@
 		"displayName": "Google: Gemini 3.7 Flash",
 		"description": "Gemini 3.7 Flash is a multimodal model from Google for fast agentic workflows, coding, and complex multi-step reasoning. It is designed for tasks that require responsive performance and reliable multi-step...",
 		"tier": "flagship",
-		"recommended": true,
 		"chatEnabled": true,
 		"chatRank": 50,
 		"capabilities": {
@@ -160,10 +160,10 @@
 			}
 		}
 	},
-	"z-ai/glm-5.3": {
-		"displayName": "Z.ai: GLM 5.3",
-		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
-		"tier": "flagship",
+	"tencent/hy4-preview": {
+		"displayName": "Tencent: Hy4 preview",
+		"description": "Tencent: Hy4 preview is a mixture-of-experts model from Tencent, with 49B active parameters out of 770B total. It is designed for coding agents, complex tool-use workflows, and productivity tasks that...",
+		"tier": "reasoning",
 		"chatEnabled": true,
 		"chatRank": 60,
 		"capabilities": {
@@ -288,15 +288,15 @@
 			}
 		}
 	},
-	"anthropic/claude-opus-5": {
-		"displayName": "Claude Opus 5",
-		"description": "Claude Opus 5 is Anthropic’s flagship model for demanding reasoning, coding, and long-horizon agentic work. It is particularly strong at end-to-end software tasks, code review and bug finding, visual analysis...",
+	"deepseek/deepseek-v4-flash": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
+		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 100,
 		"capabilities": {
-			"files": true,
-			"vision": true,
+			"files": false,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -320,15 +320,15 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
-		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
+	"anthropic/claude-opus-5": {
+		"displayName": "Claude Opus 5",
+		"description": "Claude Opus 5 is Anthropic’s flagship model for demanding reasoning, coding, and long-horizon agentic work. It is particularly strong at end-to-end software tasks, code review and bug finding, visual analysis...",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 110,
 		"capabilities": {
-			"files": false,
-			"vision": false,
+			"files": true,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -417,108 +417,12 @@
 			}
 		}
 	},
-	"minimax/minimax-m3": {
-		"displayName": "MiniMax: MiniMax M3",
-		"description": "MiniMax-M3 is a multimodal foundation model from MiniMax. It supports text, image, and video inputs with text output, a 1M-token context window, and is suited for long-horizon agentic work, coding,...",
-		"tier": "balanced",
-		"chatEnabled": true,
-		"chatRank": 140,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
 	"openai/gpt-5.6-sol": {
 		"displayName": "OpenAI: GPT-5.6 Sol",
 		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
 		"tier": "balanced",
 		"chatEnabled": true,
-		"chatRank": 150,
-		"capabilities": {
-			"files": true,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"tencent/hy3": {
-		"displayName": "Tencent: Hy3",
-		"description": "Hy3 is a 295B-parameter Mixture-of-Experts model from Tencent (21B active, 192 experts with top-8 routing) built for reasoning, agentic workflows, and real-world production use. It supports a configurable reasoning effort:...",
-		"tier": "economy",
-		"chatEnabled": true,
-		"chatRank": 160,
-		"capabilities": {
-			"files": false,
-			"vision": false,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"x-ai/grok-4.6": {
-		"displayName": "SpaceXAI: Grok 4.6",
-		"description": "Grok 4.6 is SpaceXAI's smartest model with frontier performance on coding, knowledge work, and STEM.",
-		"tier": "balanced",
-		"chatEnabled": true,
-		"chatRank": 170,
+		"chatRank": 140,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -550,6 +454,102 @@
 		"description": "Gemini 3 Flash Preview is a high speed, high value thinking model designed for agentic workflows, multi turn chat, and coding assistance. It delivers near Pro level reasoning and tool...",
 		"tier": "balanced",
 		"chatEnabled": true,
+		"chatRank": 150,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": true,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"anthropic/claude-fable-5.1": {
+		"displayName": "Anthropic: Claude Fable 5.1",
+		"description": "Claude Fable 5.1 improves on Claude Fable 5 across the board, with the biggest gains in agentic coding, long-running agentic workflows, and knowledge work: long code refactors, front-end and visual...",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 160,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"minimax/minimax-m3": {
+		"displayName": "MiniMax: MiniMax M3",
+		"description": "MiniMax-M3 is a multimodal foundation model from MiniMax. It supports text, image, and video inputs with text output, a 1M-token context window, and is suited for long-horizon agentic work, coding,...",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 170,
+		"capabilities": {
+			"files": false,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"google/gemini-3.1-flash-lite": {
+		"displayName": "Google: Gemini 3.1 Flash Lite",
+		"description": "Gemini 3.1 Flash Lite is Google’s GA high-efficiency multimodal model optimized for low-latency, high-volume workloads. It supports text, image, video, audio, and PDF inputs, and is designed for lightweight agentic...",
+		"tier": "balanced",
+		"chatEnabled": true,
 		"chatRank": 180,
 		"capabilities": {
 			"files": true,
@@ -577,16 +577,16 @@
 			}
 		}
 	},
-	"google/gemini-2.5-flash": {
-		"displayName": "Google: Gemini 2.5 Flash",
-		"description": "Gemini 2.5 Flash is Google's state-of-the-art workhorse model, specifically designed for advanced reasoning, coding, mathematics, and scientific tasks. It includes built-in \"thinking\" capabilities, enabling it to provide responses with greater...",
-		"tier": "balanced",
+	"tencent/hy3": {
+		"displayName": "Tencent: Hy3",
+		"description": "Hy3 is a 295B-parameter Mixture-of-Experts model from Tencent (21B active, 192 experts with top-8 routing) built for reasoning, agentic workflows, and real-world production use. It supports a configurable reasoning effort:...",
+		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 190,
 		"capabilities": {
-			"files": true,
-			"vision": true,
-			"audio": true,
+			"files": false,
+			"vision": false,
+			"audio": false,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -737,9 +737,9 @@
 			}
 		}
 	},
-	"nvidia/nemotron-3.5-lightning:free": {
-		"displayName": "NVIDIA: Nemotron 3.5 Lightning (free)",
-		"description": "NVIDIA Nemotron 3.5 Lightning is an open mixture-of-experts model from NVIDIA, with 3B active parameters out of 30B total. It is suited for high-throughput agentic workloads and specialized tasks that...",
+	"poolside/laguna-s-2.1:free": {
+		"displayName": "Poolside: Laguna S 2.1 (free)",
+		"description": "Laguna S 2.1 is the latest coding agent model from [Poolside](<https://poolside.ai/>). Laguna S 2.1 is a 118B total parameter model with 8B active parameters, scoring 70.2% on Terminal-Bench 2.1 and...",
 		"tier": "free",
 		"chatEnabled": true,
 		"chatRank": 240,
