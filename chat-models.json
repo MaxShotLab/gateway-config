@@ -192,16 +192,16 @@
 			}
 		}
 	},
-	"google/gemini-2.5-flash-lite": {
-		"displayName": "Google: Gemini 2.5 Flash Lite",
-		"description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better performance...",
-		"tier": "reasoning",
+	"deepseek/deepseek-v4-flash-vision-exp": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash Vision Exp",
+		"description": "DeepSeek V4 Flash Vision Exp is an experimental vision-enabled version of [DeepSeek V4 Flash 0731](https://openrouter.ai/deepseek/deepseek-v4-flash-0731) from DeepSeek, adding image understanding while matching the base model on text capabilities including agents,...",
+		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 70,
 		"capabilities": {
-			"files": true,
+			"files": false,
 			"vision": true,
-			"audio": true,
+			"audio": false,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -224,16 +224,16 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash-vision-exp": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash Vision Exp",
-		"description": "DeepSeek V4 Flash Vision Exp is an experimental vision-enabled version of [DeepSeek V4 Flash 0731](https://openrouter.ai/deepseek/deepseek-v4-flash-0731) from DeepSeek, adding image understanding while matching the base model on text capabilities including agents,...",
+	"google/gemini-2.5-flash-lite": {
+		"displayName": "Google: Gemini 2.5 Flash Lite",
+		"description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better performance...",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 80,
 		"capabilities": {
-			"files": false,
+			"files": true,
 			"vision": true,
-			"audio": false,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -323,7 +323,7 @@
 	"z-ai/glm-5.2": {
 		"displayName": "Z.ai: GLM 5.2",
 		"description": "GLM 5.2 is a large-scale reasoning model from Z.ai. It supports text input and output with a 1M-token context window, and is suited for long-horizon agent workflows, project-level software engineering,...",
-		"tier": "flagship",
+		"tier": "reasoning",
 		"chatEnabled": true,
 		"chatRank": 110,
 		"capabilities": {
@@ -352,15 +352,15 @@
 			}
 		}
 	},
-	"anthropic/claude-opus-5": {
-		"displayName": "Claude Opus 5",
-		"description": "Claude Opus 5 is Anthropic’s flagship model for demanding reasoning, coding, and long-horizon agentic work. It is particularly strong at end-to-end software tasks, code review and bug finding, visual analysis...",
+	"deepseek/deepseek-v4-pro-0813": {
+		"displayName": "DeepSeek: DeepSeek V4 Pro 0813",
+		"description": "DeepSeek V4 Pro 0813 is a large-scale mixture-of-experts model from DeepSeek. This is the GA release of DeepSeek V4 Pro.",
 		"tier": "reasoning",
 		"chatEnabled": true,
 		"chatRank": 120,
 		"capabilities": {
-			"files": true,
-			"vision": true,
+			"files": false,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -417,16 +417,16 @@
 			}
 		}
 	},
-	"xiaomi/mimo-v2.5": {
-		"displayName": "Xiaomi: MiMo-V2.5",
-		"description": "MiMo-V2.5 is a native omnimodal model by Xiaomi. It delivers Pro-level agentic performance at roughly half the inference cost, while surpassing MiMo-V2-Omni in multimodal perception across image and video understanding...",
-		"tier": "economy",
+	"anthropic/claude-opus-5": {
+		"displayName": "Anthropic: Claude Opus 5",
+		"description": "Claude Opus 5 is Anthropic’s flagship model for demanding reasoning, coding, and long-horizon agentic work. It is particularly strong at end-to-end software tasks, code review and bug finding, visual analysis...",
+		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 140,
 		"capabilities": {
-			"files": false,
+			"files": true,
 			"vision": true,
-			"audio": true,
+			"audio": false,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -449,16 +449,16 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-pro-0813": {
-		"displayName": "DeepSeek: DeepSeek V4 Pro 0813",
-		"description": "DeepSeek V4 Pro 0813 is a large-scale mixture-of-experts model from DeepSeek. This is the GA release of DeepSeek V4 Pro.",
-		"tier": "balanced",
+	"xiaomi/mimo-v2.5": {
+		"displayName": "Xiaomi: MiMo-V2.5",
+		"description": "MiMo-V2.5 is a native omnimodal model by Xiaomi. It delivers Pro-level agentic performance at roughly half the inference cost, while surpassing MiMo-V2-Omni in multimodal perception across image and video understanding...",
+		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 150,
 		"capabilities": {
 			"files": false,
-			"vision": false,
-			"audio": false,
+			"vision": true,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -577,9 +577,9 @@
 			}
 		}
 	},
-	"tencent/hy3": {
-		"displayName": "Tencent: Hy3",
-		"description": "Hy3 is a 295B-parameter Mixture-of-Experts model from Tencent (21B active, 192 experts with top-8 routing) built for reasoning, agentic workflows, and real-world production use. It supports a configurable reasoning effort:...",
+	"upstage/solar-pro4": {
+		"displayName": "Upstage: Solar Pro 4",
+		"description": "Solar Pro 4 is Upstage's cost-efficient large language model, featuring a 524K context window. It is built for long-horizon tasks and agentic workflows, with strong capabilities in office productivity, document-intensive...",
 		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 190,
@@ -609,9 +609,9 @@
 			}
 		}
 	},
-	"upstage/solar-pro4": {
-		"displayName": "Upstage: Solar Pro 4",
-		"description": "Solar Pro 4 is Upstage's cost-efficient large language model, featuring a 524K context window. It is built for long-horizon tasks and agentic workflows, with strong capabilities in office productivity, document-intensive...",
+	"tencent/hy3": {
+		"displayName": "Tencent: Hy3",
+		"description": "Hy3 is a 295B-parameter Mixture-of-Experts model from Tencent (21B active, 192 experts with top-8 routing) built for reasoning, agentic workflows, and real-world production use. It supports a configurable reasoning effort:...",
 		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 200,
@@ -673,44 +673,12 @@
 			}
 		}
 	},
-	"dots-studio/dots-3-note-preview:free": {
-		"displayName": "Dots Studio: Dots3-Note Preview (free)",
-		"description": "Dots3-Note Preview is an open-weight mixture-of-experts model from Dots Studio, with 16B active parameters out of 280B total. It is the lightest model in the Dots 3 family and is...",
-		"tier": "free",
-		"chatEnabled": true,
-		"chatRank": 220,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
 	"liquid/lfm-2.5-2.6b:free": {
 		"displayName": "LiquidAI: LFM2.5-2.6B (free)",
 		"description": "LFM2.5-2.6B is a compact reasoning model from Liquid AI. It is suited for agent workflows, data extraction, RAG, and long-context processing. Liquid advises against using it for agentic coding or...",
 		"tier": "free",
 		"chatEnabled": true,
-		"chatRank": 230,
+		"chatRank": 220,
 		"capabilities": {
 			"files": false,
 			"vision": false,
@@ -740,6 +708,38 @@
 	"nvidia/nemotron-3.5-lightning:free": {
 		"displayName": "NVIDIA: Nemotron 3.5 Lightning (free)",
 		"description": "NVIDIA Nemotron 3.5 Lightning is an open mixture-of-experts model from NVIDIA, with 3B active parameters out of 30B total. It is suited for high-throughput agentic workloads and specialized tasks that...",
+		"tier": "free",
+		"chatEnabled": true,
+		"chatRank": 230,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"poolside/laguna-s-2.1:free": {
+		"displayName": "Poolside: Laguna S 2.1 (free)",
+		"description": "Laguna S 2.1 is the latest coding agent model from [Poolside](<https://poolside.ai/>). Laguna S 2.1 is a 118B total parameter model with 8B active parameters, scoring 70.2% on Terminal-Bench 2.1 and...",
 		"tier": "free",
 		"chatEnabled": true,
 		"chatRank": 240,
