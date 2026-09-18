@@ -64,9 +64,9 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash-0731": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
-		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
+	"z-ai/glm-5.3": {
+		"displayName": "Z.ai: GLM 5.3",
+		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
 		"tier": "code",
 		"chatEnabled": true,
 		"chatRank": 30,
@@ -128,16 +128,16 @@
 			}
 		}
 	},
-	"google/gemini-3.8-flash": {
-		"displayName": "Google: Gemini 3.8 Flash",
-		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
+	"deepseek/deepseek-v4-flash-0731": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
+		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
 		"tier": "code",
 		"chatEnabled": true,
 		"chatRank": 50,
 		"capabilities": {
-			"files": true,
-			"vision": true,
-			"audio": true,
+			"files": false,
+			"vision": false,
+			"audio": false,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -160,16 +160,16 @@
 			}
 		}
 	},
-	"z-ai/glm-5.3": {
-		"displayName": "Z.ai: GLM 5.3",
-		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
+	"google/gemini-3.8-flash": {
+		"displayName": "Google: Gemini 3.8 Flash",
+		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 60,
 		"capabilities": {
-			"files": false,
-			"vision": false,
-			"audio": false,
+			"files": true,
+			"vision": true,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -288,12 +288,44 @@
 			}
 		}
 	},
+	"openai/gpt-6-astra": {
+		"displayName": "OpenAI: GPT-6 Astra",
+		"description": "GPT-6 Astra is OpenAI's flagship model for demanding end-to-end work. It is suited for advanced analysis, software engineering, deep research, scientific work, and document creation, with particular strengths in long-horizon...",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 100,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
 	"google/gemini-2.5-flash-lite": {
 		"displayName": "Google: Gemini 2.5 Flash Lite",
 		"description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better performance...",
 		"tier": "reasoning",
 		"chatEnabled": true,
-		"chatRank": 100,
+		"chatRank": 110,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -325,42 +357,10 @@
 		"description": "DeepSeek V4 Flash Vision Exp is an experimental vision-enabled version of [DeepSeek V4 Flash 0731](https://openrouter.ai/deepseek/deepseek-v4-flash-0731) from DeepSeek, adding image understanding while matching the base model on text capabilities including agents,...",
 		"tier": "flagship",
 		"chatEnabled": true,
-		"chatRank": 110,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"deepseek/deepseek-v4-flash": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
-		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
-		"tier": "flagship",
-		"chatEnabled": true,
 		"chatRank": 120,
 		"capabilities": {
 			"files": false,
-			"vision": false,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -417,76 +417,12 @@
 			}
 		}
 	},
-	"openai/gpt-6-astra": {
-		"displayName": "OpenAI: GPT-6 Astra",
-		"description": "GPT-6 Astra is OpenAI's flagship model for demanding end-to-end work. It is suited for advanced analysis, software engineering, deep research, scientific work, and document creation, with particular strengths in long-horizon...",
-		"tier": "balanced",
-		"chatEnabled": true,
-		"chatRank": 140,
-		"capabilities": {
-			"files": true,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"xiaomi/mimo-v2.5": {
-		"displayName": "Xiaomi: MiMo-V2.5",
-		"description": "MiMo-V2.5 is a native omnimodal model by Xiaomi. It delivers Pro-level agentic performance at roughly half the inference cost, while surpassing MiMo-V2-Omni in multimodal perception across image and video understanding...",
+	"deepseek/deepseek-v4-flash": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
+		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
 		"tier": "economy",
 		"chatEnabled": true,
-		"chatRank": 150,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": true,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"deepseek/deepseek-v4-pro-0813": {
-		"displayName": "DeepSeek: DeepSeek V4 Pro 0813",
-		"description": "DeepSeek V4 Pro 0813 is a large-scale mixture-of-experts model from DeepSeek. This is the GA release of DeepSeek V4 Pro.",
-		"tier": "balanced",
-		"chatEnabled": true,
-		"chatRank": 160,
+		"chatRank": 140,
 		"capabilities": {
 			"files": false,
 			"vision": false,
@@ -518,7 +454,7 @@
 		"description": "Claude Opus 5 is Anthropic’s flagship model for demanding reasoning, coding, and long-horizon agentic work. It is particularly strong at end-to-end software tasks, code review and bug finding, visual analysis...",
 		"tier": "balanced",
 		"chatEnabled": true,
-		"chatRank": 170,
+		"chatRank": 150,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -550,9 +486,105 @@
 		"description": "MiniMax-M3 is a multimodal foundation model from MiniMax. It supports text, image, and video inputs with text output, a 1M-token context window, and is suited for long-horizon agentic work, coding,...",
 		"tier": "balanced",
 		"chatEnabled": true,
+		"chatRank": 160,
+		"capabilities": {
+			"files": false,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"deepseek/deepseek-v4-pro-0813": {
+		"displayName": "DeepSeek: DeepSeek V4 Pro 0813",
+		"description": "DeepSeek V4 Pro 0813 is a large-scale mixture-of-experts model from DeepSeek. This is the GA release of DeepSeek V4 Pro.",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 170,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"xiaomi/mimo-v2.5": {
+		"displayName": "Xiaomi: MiMo-V2.5",
+		"description": "MiMo-V2.5 is a native omnimodal model by Xiaomi. It delivers Pro-level agentic performance at roughly half the inference cost, while surpassing MiMo-V2-Omni in multimodal perception across image and video understanding...",
+		"tier": "economy",
+		"chatEnabled": true,
 		"chatRank": 180,
 		"capabilities": {
 			"files": false,
+			"vision": true,
+			"audio": true,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"openai/gpt-5.6-sol": {
+		"displayName": "OpenAI: GPT-5.6 Sol",
+		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 190,
+		"capabilities": {
+			"files": true,
 			"vision": true,
 			"audio": false,
 			"webSearch": true,
@@ -582,7 +614,7 @@
 		"description": "Hy3 is a 295B-parameter Mixture-of-Experts model from Tencent (21B active, 192 experts with top-8 routing) built for reasoning, agentic workflows, and real-world production use. It supports a configurable reasoning effort:...",
 		"tier": "economy",
 		"chatEnabled": true,
-		"chatRank": 190,
+		"chatRank": 200,
 		"capabilities": {
 			"files": false,
 			"vision": false,
@@ -609,15 +641,15 @@
 			}
 		}
 	},
-	"upstage/solar-pro4": {
-		"displayName": "Upstage: Solar Pro 4",
-		"description": "Solar Pro 4 is Upstage's cost-efficient large language model, featuring a 524K context window. It is built for long-horizon tasks and agentic workflows, with strong capabilities in office productivity, document-intensive...",
-		"tier": "economy",
+	"nex-agi/nex-n2.5-mini:free": {
+		"displayName": "Nex AGI: Nex-N2.5-Mini (free)",
+		"description": "Nex-N2.5 is an agentic model built to turn goals into working, verified outcomes. Its core strength is agentic coding within a visual feedback loop: it can explore codebases, implement multi-file...",
+		"tier": "free",
 		"chatEnabled": true,
-		"chatRank": 200,
+		"chatRank": 210,
 		"capabilities": {
 			"files": false,
-			"vision": false,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -646,42 +678,10 @@
 		"description": "Ling 3.0 Flash Sante is a health and medicine-focused mixture-of-experts model from InclusionAI, built on Ling 3.0 Flash with 5.1B active parameters out of 124B total. It is designed for...",
 		"tier": "free",
 		"chatEnabled": true,
-		"chatRank": 210,
-		"capabilities": {
-			"files": false,
-			"vision": false,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"inclusionai/ling-3.0-flash-vl:free": {
-		"displayName": "inclusionAI: Ling 3.0 Flash VL (free)",
-		"description": "Ling 3.0 Flash VL builds on Ling 3.0 Flash (124B total / 5.5B active MoE from InclusionAI), further strengthening its language capabilities while adding native visual perception and advanced visual...",
-		"tier": "free",
-		"chatEnabled": true,
 		"chatRank": 220,
 		"capabilities": {
 			"files": false,
-			"vision": true,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -737,15 +737,15 @@
 			}
 		}
 	},
-	"inclusionai/ling-3.0-flash-fin:free": {
-		"displayName": "inclusionAI: Ling 3.0 Flash Fin (free)",
-		"description": "Ling 3.0 Flash Fin is a finance-focused mixture-of-experts model from InclusionAI, built on Ling 3.0 Flash with 5.1B active parameters out of 124B total. It is designed for real-world investment...",
+	"inclusionai/ling-3.0-flash-vl:free": {
+		"displayName": "inclusionAI: Ling 3.0 Flash VL (free)",
+		"description": "Ling 3.0 Flash VL builds on Ling 3.0 Flash (124B total / 5.5B active MoE from InclusionAI), further strengthening its language capabilities while adding native visual perception and advanced visual...",
 		"tier": "free",
 		"chatEnabled": true,
 		"chatRank": 240,
 		"capabilities": {
 			"files": false,
-			"vision": false,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
