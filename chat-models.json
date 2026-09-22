@@ -64,44 +64,12 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash-0731": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
-		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
-		"tier": "code",
-		"chatEnabled": true,
-		"chatRank": 30,
-		"capabilities": {
-			"files": false,
-			"vision": false,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
 	"meta/muse-spark-1.3-contributor": {
 		"displayName": "Meta: Muse Spark 1.3 Contributor",
 		"description": "Muse Spark 1.3 Contributor is the cost-efficient contributor tier of Meta’s multimodal reasoning model for experimentation, learning, and early-stage agentic, multi-agent, and coding workflows. It is designed to track information...",
 		"tier": "reasoning",
 		"chatEnabled": true,
-		"chatRank": 40,
+		"chatRank": 30,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -133,7 +101,7 @@
 		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
 		"tier": "code",
 		"chatEnabled": true,
-		"chatRank": 50,
+		"chatRank": 40,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -160,12 +128,12 @@
 			}
 		}
 	},
-	"z-ai/glm-5.3": {
-		"displayName": "Z.ai: GLM 5.3",
-		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
-		"tier": "flagship",
+	"deepseek/deepseek-v4-flash-0731": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
+		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
+		"tier": "code",
 		"chatEnabled": true,
-		"chatRank": 60,
+		"chatRank": 50,
 		"capabilities": {
 			"files": false,
 			"vision": false,
@@ -197,10 +165,42 @@
 		"description": "GPT-5.6 Luna is a fast, cost-efficient model in OpenAI's GPT-5.6 series. It is suited for high-volume, latency-sensitive tasks such as chat, classification, and lightweight agentic workflows, providing capable reasoning for...",
 		"tier": "flagship",
 		"chatEnabled": true,
-		"chatRank": 70,
+		"chatRank": 60,
 		"capabilities": {
 			"files": true,
 			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"z-ai/glm-5.3": {
+		"displayName": "Z.ai: GLM 5.3",
+		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
+		"tier": "flagship",
+		"chatEnabled": true,
+		"chatRank": 70,
+		"capabilities": {
+			"files": false,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -256,10 +256,10 @@
 			}
 		}
 	},
-	"google/gemini-3.7-flash": {
-		"displayName": "Google: Gemini 3.7 Flash",
-		"description": "Gemini 3.7 Flash is a multimodal model from Google for fast agentic workflows, coding, and complex multi-step reasoning. It is designed for tasks that require responsive performance and reliable multi-step...",
-		"tier": "flagship",
+	"google/gemini-2.5-flash-lite": {
+		"displayName": "Google: Gemini 2.5 Flash Lite",
+		"description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better performance...",
+		"tier": "reasoning",
 		"chatEnabled": true,
 		"chatRank": 90,
 		"capabilities": {
@@ -288,10 +288,10 @@
 			}
 		}
 	},
-	"google/gemini-2.5-flash-lite": {
-		"displayName": "Google: Gemini 2.5 Flash Lite",
-		"description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better performance...",
-		"tier": "reasoning",
+	"google/gemini-3.7-flash": {
+		"displayName": "Google: Gemini 3.7 Flash",
+		"description": "Gemini 3.7 Flash is a multimodal model from Google for fast agentic workflows, coding, and complex multi-step reasoning. It is designed for tasks that require responsive performance and reliable multi-step...",
+		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 100,
 		"capabilities": {
@@ -352,15 +352,16 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
-		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
-		"tier": "flagship",
+	"deepseek/deepseek-v4-flash-vision-exp": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash Vision Exp",
+		"description": "DeepSeek V4 Flash Vision Exp is an experimental vision-enabled version of [DeepSeek V4 Flash 0731](https://openrouter.ai/deepseek/deepseek-v4-flash-0731) from DeepSeek, adding image understanding while matching the base model on text capabilities including agents,...",
+		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 120,
+		"chatDefault": true,
 		"capabilities": {
 			"files": false,
-			"vision": false,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -384,16 +385,15 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash-vision-exp": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash Vision Exp",
-		"description": "DeepSeek V4 Flash Vision Exp is an experimental vision-enabled version of [DeepSeek V4 Flash 0731](https://openrouter.ai/deepseek/deepseek-v4-flash-0731) from DeepSeek, adding image understanding while matching the base model on text capabilities including agents,...",
-		"tier": "economy",
+	"deepseek/deepseek-v4-flash": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
+		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
+		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 130,
-		"chatDefault": true,
 		"capabilities": {
 			"files": false,
-			"vision": true,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -449,9 +449,9 @@
 			}
 		}
 	},
-	"minimax/minimax-m3": {
-		"displayName": "MiniMax: MiniMax M3",
-		"description": "MiniMax-M3 is a multimodal foundation model from MiniMax. It supports text, image, and video inputs with text output, a 1M-token context window, and is suited for long-horizon agentic work, coding,...",
+	"moonshotai/kimi-k3": {
+		"displayName": "MoonshotAI: Kimi K3",
+		"description": "Kimi K3 is a 2.8T parameter open-weight multimodal reasoning model from Moonshot AI. It is suited for complex coding, knowledge work, and long-horizon agentic workflows, and is particularly strong at...",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 150,
@@ -481,9 +481,9 @@
 			}
 		}
 	},
-	"anthropic/claude-opus-5": {
-		"displayName": "Anthropic: Claude Opus 5",
-		"description": "Claude Opus 5 is Anthropic’s flagship model for demanding reasoning, coding, and long-horizon agentic work. It is particularly strong at end-to-end software tasks, code review and bug finding, visual analysis...",
+	"openai/gpt-5.6-sol": {
+		"displayName": "OpenAI: GPT-5.6 Sol",
+		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 160,
@@ -513,14 +513,14 @@
 			}
 		}
 	},
-	"openai/gpt-5.6-sol": {
-		"displayName": "OpenAI: GPT-5.6 Sol",
-		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
+	"minimax/minimax-m3": {
+		"displayName": "MiniMax: MiniMax M3",
+		"description": "MiniMax-M3 is a multimodal foundation model from MiniMax. It supports text, image, and video inputs with text output, a 1M-token context window, and is suited for long-horizon agentic work, coding,...",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 170,
 		"capabilities": {
-			"files": true,
+			"files": false,
 			"vision": true,
 			"audio": false,
 			"webSearch": true,
@@ -545,16 +545,16 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-pro-0813": {
-		"displayName": "DeepSeek: DeepSeek V4 Pro 0813",
-		"description": "DeepSeek V4 Pro 0813 is a large-scale mixture-of-experts model from DeepSeek. This is the GA release of DeepSeek V4 Pro.",
+	"google/gemini-3-flash-preview": {
+		"displayName": "Google: Gemini 3 Flash Preview",
+		"description": "Gemini 3 Flash Preview is a high speed, high value thinking model designed for agentic workflows, multi turn chat, and coding assistance. It delivers near Pro level reasoning and tool...",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 180,
 		"capabilities": {
-			"files": false,
-			"vision": false,
-			"audio": false,
+			"files": true,
+			"vision": true,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -641,79 +641,15 @@
 			}
 		}
 	},
-	"nex-agi/nex-n2.5-mini:free": {
-		"displayName": "Nex AGI: Nex-N2.5-Mini (free)",
-		"description": "Nex-N2.5 is an agentic model built to turn goals into working, verified outcomes. Its core strength is agentic coding within a visual feedback loop: it can explore codebases, implement multi-file...",
-		"tier": "free",
-		"chatEnabled": true,
-		"chatRank": 210,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
 	"inclusionai/ling-3.0-flash-sante:free": {
 		"displayName": "inclusionAI: Ling 3.0 Flash Sante (free)",
 		"description": "Ling 3.0 Flash Sante is a health and medicine-focused mixture-of-experts model from InclusionAI, built on Ling 3.0 Flash with 5.1B active parameters out of 124B total. It is designed for...",
 		"tier": "free",
 		"chatEnabled": true,
-		"chatRank": 220,
+		"chatRank": 210,
 		"capabilities": {
 			"files": false,
 			"vision": false,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"nex-agi/nex-n2.5-pro:free": {
-		"displayName": "Nex AGI: Nex-N2.5-Pro (free)",
-		"description": "Nex-N2.5 is an agentic model built to turn goals into working, verified outcomes. Its core strength is agentic coding within a visual feedback loop: it can explore codebases, implement multi-file...",
-		"tier": "free",
-		"chatEnabled": true,
-		"chatRank": 230,
-		"capabilities": {
-			"files": false,
-			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -742,10 +678,74 @@
 		"description": "Ling 3.0 Flash VL builds on Ling 3.0 Flash (124B total / 5.5B active MoE from InclusionAI), further strengthening its language capabilities while adding native visual perception and advanced visual...",
 		"tier": "free",
 		"chatEnabled": true,
-		"chatRank": 240,
+		"chatRank": 220,
 		"capabilities": {
 			"files": false,
 			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"inclusionai/ling-3.0-flash-fin:free": {
+		"displayName": "inclusionAI: Ling 3.0 Flash Fin (free)",
+		"description": "Ling 3.0 Flash Fin is a finance-focused mixture-of-experts model from InclusionAI, built on Ling 3.0 Flash with 5.1B active parameters out of 124B total. It is designed for real-world investment...",
+		"tier": "free",
+		"chatEnabled": true,
+		"chatRank": 230,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"liquid/lfm-2.5-2.6b:free": {
+		"displayName": "LiquidAI: LFM2.5-2.6B (free)",
+		"description": "LFM2.5-2.6B is a compact reasoning model from Liquid AI. It is suited for agent workflows, data extraction, RAG, and long-context processing. Liquid advises against using it for agentic coding or...",
+		"tier": "free",
+		"chatEnabled": true,
+		"chatRank": 240,
+		"capabilities": {
+			"files": false,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
