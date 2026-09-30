@@ -1,0 +1,18 @@
+{
+  "image": [
+    "openrouter/seedream-4.5",
+    "openrouter/grok-imagine-image-2.0",
+    "openrouter/seedream-5-0-pro",
+    "openrouter/recraft-v4.1-flash",
+    "openrouter/seedream-5-0-lite",
+    "openrouter/qwen-image-3"
+  ],
+  "video": [
+    "openrouter/seedance-2.5",
+    "openrouter/seedance-2.0-mini",
+    "openrouter/wan-3.0",
+    "openrouter/wan-2.7",
+    "openrouter/hailuo-3-max",
+    "openrouter/kling-v3.0-pro"
+  ]
+}
