@@ -63,45 +63,13 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4.1-flash": {
-		"displayName": "DeepSeek: DeepSeek V4.1 Flash",
-		"description": "DeepSeek V4.1 Flash is a sparse mixture-of-experts model from DeepSeek, and the first built on the company's Causal Encoder-Decoder (CED) architecture. It activates 8B parameters on input and 16B on...",
-		"tier": "flagship",
-		"recommended": true,
-		"chatEnabled": true,
-		"chatRank": 30,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
 	"openai/gpt-6-luna": {
 		"displayName": "OpenAI: GPT-6 Luna",
 		"description": "GPT-6 Luna is the fast, cost-efficient model in OpenAI's GPT-6 series, positioned below GPT-6 Sol. It is suited for high-volume and latency-sensitive workloads such as chat, classification, and lightweight agentic...",
 		"tier": "flagship",
+		"recommended": true,
 		"chatEnabled": true,
-		"chatRank": 40,
+		"chatRank": 30,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -128,15 +96,15 @@
 			}
 		}
 	},
-	"z-ai/glm-5.3": {
-		"displayName": "Z.ai: GLM 5.3",
-		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
-		"tier": "code",
+	"deepseek/deepseek-v4.1-flash": {
+		"displayName": "DeepSeek: DeepSeek V4.1 Flash",
+		"description": "DeepSeek V4.1 Flash is a sparse mixture-of-experts model from DeepSeek, and the first built on the company's Causal Encoder-Decoder (CED) architecture. It activates 8B parameters on input and 16B on...",
+		"tier": "flagship",
 		"chatEnabled": true,
-		"chatRank": 50,
+		"chatRank": 40,
 		"capabilities": {
 			"files": false,
-			"vision": false,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -165,7 +133,7 @@
 		"description": "Muse Spark 1.3 Contributor is the cost-efficient contributor tier of Meta’s multimodal reasoning model for experimentation, learning, and early-stage agentic, multi-agent, and coding workflows. It is designed to track information...",
 		"tier": "reasoning",
 		"chatEnabled": true,
-		"chatRank": 60,
+		"chatRank": 50,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -197,7 +165,7 @@
 		"description": "Claude Opus 5.5 is Anthropic's flagship model for demanding reasoning, coding, and long-horizon agentic work, succeeding Claude Opus 5. It is particularly strong at multi-step changes in large codebases, code...",
 		"tier": "flagship",
 		"chatEnabled": true,
-		"chatRank": 70,
+		"chatRank": 60,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -229,11 +197,43 @@
 		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
 		"tier": "code",
 		"chatEnabled": true,
-		"chatRank": 80,
+		"chatRank": 70,
 		"capabilities": {
 			"files": true,
 			"vision": true,
 			"audio": true,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"z-ai/glm-5.3": {
+		"displayName": "Z.ai: GLM 5.3",
+		"description": "GLM-5.3 is a large-scale reasoning model from Z.ai, built for complex software engineering and long-horizon agent tasks. It supports text input and output with a 1M-token context window, and improves...",
+		"tier": "code",
+		"chatEnabled": true,
+		"chatRank": 80,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -417,15 +417,15 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
-		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
-		"tier": "economy",
+	"openai/gpt-6-astra": {
+		"displayName": "OpenAI: GPT-6 Astra",
+		"description": "GPT-6 Astra is OpenAI's flagship model for demanding end-to-end work. It is suited for advanced analysis, software engineering, deep research, scientific work, and document creation, with particular strengths in long-horizon...",
+		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 140,
 		"capabilities": {
-			"files": false,
-			"vision": false,
+			"files": true,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -513,12 +513,44 @@
 			}
 		}
 	},
-	"openai/gpt-6-astra": {
-		"displayName": "OpenAI: GPT-6 Astra",
-		"description": "GPT-6 Astra is OpenAI's flagship model for demanding end-to-end work. It is suited for advanced analysis, software engineering, deep research, scientific work, and document creation, with particular strengths in long-horizon...",
-		"tier": "balanced",
+	"deepseek/deepseek-v4-flash": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
+		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
+		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 170,
+		"capabilities": {
+			"files": false,
+			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"openai/gpt-5.6-sol": {
+		"displayName": "OpenAI: GPT-5.6 Sol",
+		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 180,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -550,41 +582,9 @@
 		"description": "Kimi K3 is a 2.8T parameter open-weight multimodal reasoning model from Moonshot AI. It is suited for complex coding, knowledge work, and long-horizon agentic workflows, and is particularly strong at...",
 		"tier": "balanced",
 		"chatEnabled": true,
-		"chatRank": 180,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"openai/gpt-5.6-sol": {
-		"displayName": "OpenAI: GPT-5.6 Sol",
-		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
-		"tier": "balanced",
-		"chatEnabled": true,
 		"chatRank": 190,
 		"capabilities": {
-			"files": true,
+			"files": false,
 			"vision": true,
 			"audio": false,
 			"webSearch": true,
@@ -705,15 +705,15 @@
 			}
 		}
 	},
-	"qwen/qwen3.8-27b:free": {
-		"displayName": "Qwen: Qwen3.8 27B (free)",
-		"description": "Qwen3.8 27B is an open-weight dense vision-language model from Qwen. It is suited for coding, professional workflows, research, multimodal interaction, and long-running agent tasks, with flexible thinking that can be...",
+	"liquid/lfm-2.5-2.6b:free": {
+		"displayName": "LiquidAI: LFM2.5-2.6B (free)",
+		"description": "LFM2.5-2.6B is a compact reasoning model from Liquid AI. It is suited for agent workflows, data extraction, RAG, and long-context processing. Liquid advises against using it for agentic coding or...",
 		"tier": "free",
 		"chatEnabled": true,
 		"chatRank": 230,
 		"capabilities": {
 			"files": false,
-			"vision": true,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -737,9 +737,9 @@
 			}
 		}
 	},
-	"liquid/lfm-2.5-2.6b:free": {
-		"displayName": "LiquidAI: LFM2.5-2.6B (free)",
-		"description": "LFM2.5-2.6B is a compact reasoning model from Liquid AI. It is suited for agent workflows, data extraction, RAG, and long-context processing. Liquid advises against using it for agentic coding or...",
+	"poolside/laguna-s-2.1:free": {
+		"displayName": "Poolside: Laguna S 2.1 (free)",
+		"description": "Laguna S 2.1 is the latest coding agent model from [Poolside](<https://poolside.ai/>). Laguna S 2.1 is a 118B total parameter model with 8B active parameters, scoring 70.2% on Terminal-Bench 2.1 and...",
 		"tier": "free",
 		"chatEnabled": true,
 		"chatRank": 240,
