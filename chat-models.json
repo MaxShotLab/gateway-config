@@ -32,12 +32,44 @@
 			}
 		}
 	},
+	"z-ai/glm-5.3-flash": {
+		"displayName": "Z.ai: GLM 5.3 Flash",
+		"description": "GLM-5.3-Flash is a native multimodal model from Z.ai. It is suited for efficient coding and long-horizon agent tasks. Its hybrid sparse and linear attention architecture maintains accurate long-context behavior while...",
+		"tier": "code",
+		"chatEnabled": true,
+		"chatRank": 20,
+		"capabilities": {
+			"files": false,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
 	"openai/gpt-6-luna": {
 		"displayName": "OpenAI: GPT-6 Luna",
 		"description": "GPT-6 Luna is the fast, cost-efficient model in OpenAI's GPT-6 series, positioned below GPT-6 Sol. It is suited for high-volume and latency-sensitive workloads such as chat, classification, and lightweight agentic...",
 		"tier": "flagship",
 		"chatEnabled": true,
-		"chatRank": 20,
+		"chatRank": 30,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -69,43 +101,11 @@
 		"description": "MiMo-V2.6-Flash is an open-source foundation model developed by Xiaomi. Built on a Mixture-of-Experts architecture with 309B total parameters and 15B activated per token, it employs a hybrid attention mechanism for...",
 		"tier": "reasoning",
 		"chatEnabled": true,
-		"chatRank": 30,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": true,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"z-ai/glm-5.3-flash": {
-		"displayName": "Z.ai: GLM 5.3 Flash",
-		"description": "GLM-5.3-Flash is a native multimodal model from Z.ai. It is suited for efficient coding and long-horizon agent tasks. Its hybrid sparse and linear attention architecture maintains accurate long-context behavior while...",
-		"tier": "code",
-		"chatEnabled": true,
 		"chatRank": 40,
 		"capabilities": {
 			"files": false,
 			"vision": true,
-			"audio": false,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -192,16 +192,16 @@
 			}
 		}
 	},
-	"google/gemini-3.8-flash": {
-		"displayName": "Google: Gemini 3.8 Flash",
-		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
+	"deepseek/deepseek-v4-flash-0731": {
+		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
+		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
 		"tier": "code",
 		"chatEnabled": true,
 		"chatRank": 70,
 		"capabilities": {
-			"files": true,
-			"vision": true,
-			"audio": true,
+			"files": false,
+			"vision": false,
+			"audio": false,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -224,16 +224,16 @@
 			}
 		}
 	},
-	"openai/gpt-5.6-luna": {
-		"displayName": "OpenAI: GPT-5.6 Luna",
-		"description": "GPT-5.6 Luna is a fast, cost-efficient model in OpenAI's GPT-5.6 series. It is suited for high-volume, latency-sensitive tasks such as chat, classification, and lightweight agentic workflows, providing capable reasoning for...",
+	"google/gemini-3.8-flash": {
+		"displayName": "Google: Gemini 3.8 Flash",
+		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 80,
 		"capabilities": {
 			"files": true,
 			"vision": true,
-			"audio": false,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -288,76 +288,12 @@
 			}
 		}
 	},
-	"deepseek/deepseek-v4-flash-0731": {
-		"displayName": "DeepSeek: DeepSeek V4 Flash 0731",
-		"description": "DeepSeek V4 Flash 0731 is a sparse mixture-of-experts model from DeepSeek, with 13B active parameters out of 284B total. This re-post-trained revision is suited for coding, reasoning, and agent workflows....",
+	"openai/gpt-5.6-luna": {
+		"displayName": "OpenAI: GPT-5.6 Luna",
+		"description": "GPT-5.6 Luna is a fast, cost-efficient model in OpenAI's GPT-5.6 series. It is suited for high-volume, latency-sensitive tasks such as chat, classification, and lightweight agentic workflows, providing capable reasoning for...",
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 100,
-		"capabilities": {
-			"files": false,
-			"vision": false,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"openai/gpt-6-sol": {
-		"displayName": "OpenAI: GPT-6 Sol",
-		"description": "GPT-6 Sol is the cost-efficient high-end model in OpenAI's GPT-6 series, positioned below the flagship GPT-6 Astra and above the fast GPT-6 Luna tier. It is suited for demanding professional...",
-		"tier": "flagship",
-		"chatEnabled": true,
-		"chatRank": 110,
-		"capabilities": {
-			"files": true,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"meta/muse-spark-1.3-contributor": {
-		"displayName": "Meta: Muse Spark 1.3 Contributor",
-		"description": "Muse Spark 1.3 Contributor is the cost-efficient contributor tier of Meta’s multimodal reasoning model for experimentation, learning, and early-stage agentic, multi-agent, and coding workflows. It is designed to track information...",
-		"tier": "reasoning",
-		"chatEnabled": true,
-		"chatRank": 120,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -387,13 +323,44 @@
 	"deepseek/deepseek-v4-flash": {
 		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
 		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
-		"tier": "economy",
+		"tier": "flagship",
 		"chatEnabled": true,
-		"chatRank": 130,
-		"chatDefault": true,
+		"chatRank": 110,
 		"capabilities": {
 			"files": false,
 			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"openai/gpt-6-sol": {
+		"displayName": "OpenAI: GPT-6 Sol",
+		"description": "GPT-6 Sol is the cost-efficient high-end model in OpenAI's GPT-6 series, positioned below the flagship GPT-6 Astra and above the fast GPT-6 Luna tier. It is suited for demanding professional...",
+		"tier": "reasoning",
+		"chatEnabled": true,
+		"chatRank": 120,
+		"capabilities": {
+			"files": true,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -422,9 +389,42 @@
 		"description": "GPT-6 Astra is OpenAI's flagship model for demanding end-to-end work. It is suited for advanced analysis, software engineering, deep research, scientific work, and document creation, with particular strengths in long-horizon...",
 		"tier": "balanced",
 		"chatEnabled": true,
-		"chatRank": 140,
+		"chatRank": 130,
+		"chatDefault": true,
 		"capabilities": {
 			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"moonshotai/kimi-k3": {
+		"displayName": "MoonshotAI: Kimi K3",
+		"description": "Kimi K3 is a 2.8T parameter open-weight multimodal reasoning model from Moonshot AI. It is suited for complex coding, knowledge work, and long-horizon agentic workflows, and is particularly strong at...",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 140,
+		"capabilities": {
+			"files": false,
 			"vision": true,
 			"audio": false,
 			"webSearch": true,
@@ -481,16 +481,16 @@
 			}
 		}
 	},
-	"moonshotai/kimi-k3": {
-		"displayName": "MoonshotAI: Kimi K3",
-		"description": "Kimi K3 is a 2.8T parameter open-weight multimodal reasoning model from Moonshot AI. It is suited for complex coding, knowledge work, and long-horizon agentic workflows, and is particularly strong at...",
-		"tier": "balanced",
+	"xiaomi/mimo-v2.5": {
+		"displayName": "Xiaomi: MiMo-V2.5",
+		"description": "MiMo-V2.5 is a native omnimodal model by Xiaomi. It delivers Pro-level agentic performance at roughly half the inference cost, while surpassing MiMo-V2-Omni in multimodal perception across image and video understanding...",
+		"tier": "economy",
 		"chatEnabled": true,
 		"chatRank": 160,
 		"capabilities": {
 			"files": false,
 			"vision": true,
-			"audio": false,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -545,12 +545,44 @@
 			}
 		}
 	},
+	"openai/gpt-5.6-sol": {
+		"displayName": "OpenAI: GPT-5.6 Sol",
+		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 180,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
 	"upstage/solar-pro4": {
 		"displayName": "Upstage: Solar Pro 4",
 		"description": "Solar Pro 4 is Upstage's cost-efficient large language model, featuring a 524K context window. It is built for long-horizon tasks and agentic workflows, with strong capabilities in office productivity, document-intensive...",
 		"tier": "economy",
 		"chatEnabled": true,
-		"chatRank": 180,
+		"chatRank": 190,
 		"capabilities": {
 			"files": false,
 			"vision": false,
@@ -577,47 +609,15 @@
 			}
 		}
 	},
-	"xiaomi/mimo-v2.5": {
-		"displayName": "Xiaomi: MiMo-V2.5",
-		"description": "MiMo-V2.5 is a native omnimodal model by Xiaomi. It delivers Pro-level agentic performance at roughly half the inference cost, while surpassing MiMo-V2-Omni in multimodal perception across image and video understanding...",
+	"tencent/hy3": {
+		"displayName": "Tencent: Hy3",
+		"description": "Hy3 is a 295B-parameter Mixture-of-Experts model from Tencent (21B active, 192 experts with top-8 routing) built for reasoning, agentic workflows, and real-world production use. It supports a configurable reasoning effort:...",
 		"tier": "economy",
-		"chatEnabled": true,
-		"chatRank": 190,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": true,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"openai/gpt-5.6-sol": {
-		"displayName": "OpenAI: GPT-5.6 Sol",
-		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
-		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 200,
 		"capabilities": {
-			"files": true,
-			"vision": true,
+			"files": false,
+			"vision": false,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
