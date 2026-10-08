@@ -1,11 +1,20 @@
 {
   "image": [
+    "openrouter/seedream-5-0-flash",
     "openrouter/seedream-4.5",
-    "openrouter/grok-imagine-image-2.0",
     "openrouter/seedream-5-0-pro",
-    "openrouter/recraft-v4.1-flash",
     "openrouter/seedream-5-0-lite",
-    "openrouter/qwen-image-3"
+    "openrouter/grok-imagine-image-2.0",
+    "openrouter/recraft-v4.1-flash",
+    "openrouter/flux-3-image",
+    "openrouter/grok-imagine-image-quality",
+    "openrouter/qwen-image-3",
+    "openrouter/qwen-image-3-pro",
+    "openrouter/recraft-v4.1",
+    "openrouter/riverflow-v2.5-pro",
+    "openrouter/riverflow-v2.5-fast",
+    "openrouter/recraft-v4-styles",
+    "openrouter/recraft-v4"
   ],
   "video": [
     "openrouter/heygen-video-1",
