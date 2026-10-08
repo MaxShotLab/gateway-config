@@ -1,5 +1,9 @@
 {
   "name": "gateway-config",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "test": "node --test scripts/update-studio-models.test.mjs",
+    "update:studio": "node scripts/update-studio-models.mjs"
+  }
 }

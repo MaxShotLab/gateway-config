@@ -1,12 +1,54 @@
 # Gateway model configuration
 
-`chat-models.json` is maintained by the existing chat selection workflow.
-`studio-models.json` is a manually maintained Studio listing selection. The chat
-workflow must not update it. Arrays contain existing Studio model IDs in display
-order, grouped by output kind (`image` and `video`). An ID may cover multiple
-input modes; it is listed only once in its output group.
+`chat-models.json` and `studio-models.json` are updated daily at 00:00 UTC
+(08:00 Asia/Shanghai) and through manual GitHub Actions dispatch. Chat and Studio
+updates run independently: valid changes are committed even if another selection
+fails, and the workflow reports failures after committing.
 
-## Studio initial selection
+## Automated Studio selection
+
+Run `npm run update:studio`, or use `node scripts/update-studio-models.mjs --dry-run`
+to inspect the proposed selection without writing. Run `npm test` for offline
+regression checks. `OPENROUTER_API_KEY` is required by the image rankings dataset and is supplied
+from the existing Actions secret. Without a usable key, the image group is
+retained and reported as failed; publicly accessible video data can still update.
+`STUDIO_MODELS_URL` optionally overrides the published Studio catalog URL; the
+updater always requests `scope=all`. The default is
+`https://api-gateway.888646.xyz/studio/v1/models?scope=all`.
+
+The scoring reference is [llm_gateway_prototype commit 4cf7908](https://github.com/MaxShotLab/llm_gateway_prototype/commit/4cf7908a3db2b041cb83678a5ca98e7838e5e6a1).
+The updater fetches the general OpenRouter catalog, Image API catalog, Video API
+catalog and image-output rankings for the previous 30 complete UTC days. Image
+weekly/monthly usage, freshness and ability weights remain 45/25/20/10; video
+freshness, ability breadth and parameter completeness remain 60/25/15. Video
+scores do not represent popularity. Dates are parsed correctly to exclude
+expired models; invalid expiration dates also exclude the candidate.
+
+Scores and ranks are computed on the complete eligible OpenRouter candidate
+pool, before Studio filtering. Candidates then match currently published,
+`enabled` OpenRouter Studio models by `providerModelId` and medium; output uses
+Studio public IDs. No ID is inferred by removing or adding an author prefix.
+Each group retains score-descending, creation-descending, ID order from the
+reference. Images outside the dedicated Image API remain upstream candidates,
+but still require an enabled matching Studio model. No generation requests are
+made and upstream endpoint inference availability is not probed.
+
+Targets are **15 images and 10 videos**. Each selected image group must contain
+at least three models with `textToImage` and three with `imageEdit`; each selected
+video group must contain at least three with `textToVideo` and three with
+`imageToVideo`, using the published Studio capabilities. A group with insufficient
+count, insufficient coverage, ambiguous IDs or failed required data retains its
+previous selection and order. A valid other group can still update. The updater
+exits nonzero for any failed group. Studio or general catalog failure retains
+both groups; image-data failure does not block video and vice versa. Coverage
+validation never replaces top-ranked models with lower-ranked candidates.
+
+Only membership or order changes write the JSON file. Failed/empty source data
+cannot clear a group. Arrays contain public Studio IDs grouped by output kind;
+a model is listed once even when it supports multiple input modes. Existing
+remote-refresh behavior and backend fallback storage remain unchanged.
+
+## Historical Studio initial selection
 
 Selection date: 2026-09-30. Sources: [OpenRouter image rankings](https://openrouter.ai/rankings/image),
 [video rankings](https://openrouter.ai/rankings/video), model creation timestamps,
@@ -43,16 +85,13 @@ Image capability coverage was t2i=6, i2i=5; video coverage was t2v=6, i2v=6.
 Google/OpenAI models that were not enabled in Studio were not selected merely
 because they ranked highly: curation cannot bypass billing or safety gates.
 
-## Manual update procedure
+## Backend release coordination
 
-1. Check the latest official request-volume, availability and release evidence.
-2. Check candidates against the published Studio catalog using `scope=all`.
-3. Preserve at least three currently enabled models for each of t2i, i2i, t2v
-   and i2v. A model can satisfy multiple modes. Avoid duplicate IDs.
-4. Edit `studio-models.json` and update the deployed backend's shipped fallback
-   snapshot (`apps/studio-service/src/studio-models.json`) in the coordinated release.
-5. Validate both JSON files match and verify capability coverage. Commit the
-   configuration first, then release the backend snapshot.
+The backend shipped fallback (`apps/studio-service/src/studio-models.json`) is
+synchronized from this repository during normal backend releases. Daily Actions
+updates do not modify or deploy the backend. A process restart with an unavailable
+remote configuration can temporarily use an older shipped selection. No durable
+selection cache is added. A valid remote refresh replaces that fallback.
 
 The backend polls this configuration on curated-list requests using a five-minute
 cache, with a thirty-second retry after failure and a five-second request timeout.

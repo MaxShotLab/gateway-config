@@ -8,11 +8,15 @@
     "openrouter/qwen-image-3"
   ],
   "video": [
-    "openrouter/seedance-2.5",
+    "openrouter/heygen-video-1",
+    "openrouter/grok-imagine-video-1.5-lite",
     "openrouter/seedance-2.0-mini",
-    "openrouter/wan-3.0",
-    "openrouter/wan-2.7",
+    "openrouter/seedance-2.5",
+    "openrouter/flux-3-video",
     "openrouter/hailuo-3-max",
-    "openrouter/kling-v3.0-pro"
+    "openrouter/hailuo-3",
+    "openrouter/wan-3.0-prime",
+    "openrouter/wan-3.0",
+    "openrouter/gen-4.5"
   ]
 }
