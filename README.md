@@ -1,9 +1,11 @@
 # Gateway model configuration
 
-`chat-models.json` and `studio-models.json` are updated daily at 00:00 UTC
-(08:00 Asia/Shanghai) and through manual GitHub Actions dispatch. Chat and Studio
-updates run independently: valid changes are committed even if another selection
-fails, and the workflow reports failures after committing.
+`chat-models.json` is updated daily at 00:00 UTC (08:00 Asia/Shanghai) and
+through manual GitHub Actions dispatch. Failed selections retain the previous
+configuration and are reported as workflow failures.
+
+Automatic updates of `studio-models.json` are paused. The Studio updater remains
+available for local manual runs.
 
 ## Automated Studio selection
 

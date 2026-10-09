@@ -21,10 +21,6 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Validate Studio updater
-        id: tests
-        run: npm test
-
       - name: Run chat model selection algorithm
         id: chat
         continue-on-error: true
@@ -34,27 +30,19 @@ jobs:
           NEW_API_URL: ${{ secrets.NEW_API_URL }}
           NEW_API_TOKEN: ${{ secrets.NEW_API_TOKEN }}
 
-      - name: Run Studio model selection algorithm
-        id: studio
-        continue-on-error: true
-        run: node scripts/update-studio-models.mjs
-        env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-
       - name: Commit and push if changed
-        if: ${{ !cancelled() && steps.tests.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.chat.outcome == 'success' }}
         run: |
-          git diff --quiet -- chat-models.json studio-models.json && echo "No changes to commit" && exit 0
+          git diff --quiet -- chat-models.json && echo "No changes to commit" && exit 0
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add chat-models.json studio-models.json
+          git add chat-models.json
           git commit -m "chore: update model selections (automated)"
           git push
 
       - name: Report selection failures
-        if: ${{ !cancelled() && (steps.chat.outcome == 'failure' || steps.studio.outcome == 'failure') }}
+        if: ${{ !cancelled() && steps.chat.outcome == 'failure' }}
         run: |
           echo "Chat outcome: ${{ steps.chat.outcome }}"
-          echo "Studio outcome: ${{ steps.studio.outcome }}"
-          echo "Valid changes were committed; failed selections retained their previous configuration."
+          echo "Chat selection failed; the previous configuration was retained."
           exit 1
