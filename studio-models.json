@@ -18,14 +18,14 @@
   ],
   "video": [
     "heygen/heygen-video-1",
-    "x-ai/grok-imagine-video-1.5-lite",
-    "bytedance/seedance-2.0-mini",
+    "google/veo-3.1-lite",
     "bytedance/seedance-2.5",
-    "black-forest-labs/flux-3-video",
-    "minimax/hailuo-3-max",
-    "minimax/hailuo-3",
-    "alibaba/wan-3.0-prime",
+    "bytedance/seedance-2.0",
+    "bytedance/seedance-2.0-fast",
     "alibaba/wan-3.0",
-    "runway/gen-4.5"
+    "google/veo-3.1-fast",
+    "bytedance/seedance-2.0-mini",
+    "kwaivgi/kling-v3.0-pro",
+    "bytedance/seedance-1-5-pro"
   ]
 }
