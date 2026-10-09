@@ -29,7 +29,13 @@ expired models; invalid expiration dates also exclude the candidate.
 Scores and ranks are computed on the complete eligible OpenRouter candidate
 pool, before Studio filtering. Candidates then match currently published,
 `enabled` OpenRouter Studio models by `providerModelId` and medium; output uses
-Studio public IDs. No ID is inferred by removing or adding an author prefix.
+the exact upstream author/slug as the Studio public ID, for example
+`bytedance-seed/seedream-5-0-pro` and `bytedance/seedance-2.5`. The updater uses
+`providerModelId` even when a rolling deployment still returns legacy
+`openrouter/slug` IDs. It rejects collisions with any published catalog entry,
+including disabled models. `namespace=openrouter` remains the provider routing
+identifier, independent of the public ID. No ID is inferred by removing or adding
+an author prefix.
 Each group retains score-descending, creation-descending, ID order from the
 reference. Images outside the dedicated Image API remain upstream candidates,
 but still require an enabled matching Studio model. No generation requests are
@@ -48,7 +54,9 @@ validation never replaces top-ranked models with lower-ranked candidates.
 Only membership or order changes write the JSON file. Failed/empty source data
 cannot clear a group. Arrays contain public Studio IDs grouped by output kind;
 a model is listed once even when it supports multiple input modes. Existing
-remote-refresh behavior and backend fallback storage remain unchanged.
+remote-refresh behavior and backend fallback storage remain unchanged. The backend
+continues accepting legacy `openrouter/slug` inputs for compatibility; all Studio
+model IDs returned by the backend use the new author/slug format.
 
 ## Historical Studio initial selection
 

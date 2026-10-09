@@ -140,6 +140,11 @@ export function validateSelection(selection) {
 
 export function selectStudioGroup(kind, scored, studioModels) {
   const byProvider = new Map();
+  const publicIdCounts = new Map();
+  for (const model of studioModels) {
+    const id = model.namespace === "openrouter" ? model.providerModelId : model.id;
+    if (typeof id === "string") publicIdCounts.set(id, (publicIdCounts.get(id) ?? 0) + 1);
+  }
   for (const model of studioModels) {
     if (model.namespace !== "openrouter" || model.kind !== kind || model.enabled !== true) continue;
     if (typeof model.providerModelId !== "string" || !model.providerModelId) continue;
@@ -156,8 +161,10 @@ export function selectStudioGroup(kind, scored, studioModels) {
     const count = selected.filter((model) => model.capabilities?.[mode] === true).length;
     if (count < 3) throw new Error(`Insufficient ${kind} coverage: ${mode} ${count}/3`);
   }
-  const ids = selected.map((model) => model.id);
-  if (ids.some((id) => typeof id !== "string" || !id.trim()) || new Set(ids).size !== ids.length) {
+  // Use upstream author/slug IDs even while Studio still returns legacy IDs.
+  const ids = selected.map((model) => model.providerModelId);
+  if (ids.some((id) => typeof id !== "string" || !/^[^/\s]+\/[^/\s]+$/.test(id)) ||
+      new Set(ids).size !== ids.length || ids.some((id) => publicIdCounts.get(id) !== 1)) {
     throw new Error(`Invalid or duplicate ${kind} public IDs`);
   }
   return ids;

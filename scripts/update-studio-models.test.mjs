@@ -52,14 +52,31 @@ test("video scores preserve reference weights and score ties use creation date t
   assert.deepEqual(result.video.map((m) => m.id), ["a", "z", "old"]);
 });
 
-test("Studio gates before truncation and writes public IDs, not upstream IDs", () => {
+test("Studio gates before truncation and writes exact upstream public IDs", () => {
   const disabled = studio.map((m) => m.providerModelId === "image/00" ? { ...m, enabled: false } : m);
   const result = buildStudioSelection(existing, scored, disabled);
   assert.deepEqual(result.errors, {});
   assert.equal(result.selection.image.length, 15);
   assert.equal(result.selection.video.length, 10);
-  assert.equal(result.selection.image[0], "public/image/01");
-  assert.equal(result.selection.image.at(-1), "public/image/15");
+  assert.equal(result.selection.image[0], "image/01");
+  assert.equal(result.selection.image.at(-1), "image/15");
+});
+
+test("legacy and migrated Studio catalogs produce the same author-scoped selection", () => {
+  const legacy = studio.map((m) => ({ ...m, id: `openrouter/${m.providerModelId.split("/")[1]}` }));
+  const migrated = studio.map((m) => ({ ...m, id: m.providerModelId }));
+  assert.deepEqual(buildStudioSelection(existing, scored, legacy), buildStudioSelection(existing, scored, migrated));
+  assert.deepEqual(selectStudioGroup("video", videos, migrated), videos.slice(0, 10).map((m) => m.id));
+});
+
+test("invalid author-scoped IDs and published collisions retain the affected group", () => {
+  const collision = [...studio, { ...studio[0], namespace: "another-provider", enabled: false, id: "image/00" }];
+  const result = buildStudioSelection(existing, scored, collision);
+  assert.match(result.errors.image, /duplicate/);
+  assert.deepEqual(result.selection.image, existing.image);
+  assert.equal(result.selection.video.length, 10);
+  const unscoped = pool("image", 15).map((m, i) => ({ ...m, id: `unscoped-${i}` }));
+  assert.throws(() => selectStudioGroup("image", unscoped, unscoped.map((m) => studioModel(m.id))), /Invalid/);
 });
 
 test("shortage preserves one group while the other updates", () => {
@@ -81,7 +98,7 @@ test("published coverage is authoritative and no lower-ranked replacement is ins
 
 test("ambiguous mappings, duplicate output IDs, and invalid existing files are rejected", () => {
   assert.throws(() => selectStudioGroup("image", images, [...studio, studioModel("image/00", "image", { id: "another" })]), /Ambiguous/);
-  assert.throws(() => selectStudioGroup("image", images, studio.map((m) => ({ ...m, id: "duplicate" }))), /duplicate/);
+  assert.throws(() => selectStudioGroup("image", images, [...studio, { ...studio[0], namespace: "another-provider", id: "image/00" }]), /duplicate/);
   assert.throws(() => validateSelection({ image: ["same"], video: ["same"] }), /Duplicate/);
   assert.throws(() => validateSelection({ image: [], video: [], metadata: {} }), /shape/);
 });
