@@ -95,6 +95,32 @@ Image capability coverage was t2i=6, i2i=5; video coverage was t2v=6, i2v=6.
 Google/OpenAI models that were not enabled in Studio were not selected merely
 because they ranked highly: curation cannot bypass billing or safety gates.
 
+## Studio incident selection review (2026-10-09)
+
+The video selection replaces `heygen/heygen-video-1` with `alibaba/wan-2.7`
+and retains the other nine models in their existing relative order. Three
+HeyGen attempts were rejected because the provider always emits audio and
+rejects `generate_audio=false`, while the upstream catalog declares
+`generate_audio=false`. This removes HeyGen from curated discovery only; it
+remains enabled in `scope=all`. Wan 2.7 is published and enabled, declares
+text-to-video, image-to-video and first/last-frame support, and passes live
+pricing checks with an image reference for both silent and audio output.
+No paid generation was performed to verify the replacement.
+
+The five reported image models remain selected: `black-forest-labs/flux-3-image`,
+`recraft/recraft-v4.1`, `sourceful/riverflow-v2.5-pro`,
+`sourceful/riverflow-v2.5-fast`, and `recraft/recraft-v4`. Their upstream endpoints
+advertise reference-image support but only output-image prices. Studio currently
+requires explicit reference-input pricing and rejects those image-edit quotes;
+this is a pricing integration limitation, not evidence of provider generation
+failure. Removing them would also remove their priceable text-to-image mode.
+Aligning capability discovery and quotation needs a separate backend change.
+
+The two incomplete Seedance 1.5 Pro checks were blocked before provider dispatch
+by the existing daily Studio cost budget, not a recorded model rejection; its
+selection is retained. This review does not change billing, budgets, model
+admission, enabled flags, or the paused automatic-selection schedule.
+
 ## Backend release coordination
 
 The backend shipped fallback (`apps/studio-service/src/studio-models.json`) is

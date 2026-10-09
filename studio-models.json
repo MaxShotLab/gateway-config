@@ -17,7 +17,6 @@
     "recraft/recraft-v4"
   ],
   "video": [
-    "heygen/heygen-video-1",
     "google/veo-3.1-lite",
     "bytedance/seedance-2.5",
     "bytedance/seedance-2.0",
@@ -26,6 +25,7 @@
     "google/veo-3.1-fast",
     "bytedance/seedance-2.0-mini",
     "kwaivgi/kling-v3.0-pro",
-    "bytedance/seedance-1-5-pro"
+    "bytedance/seedance-1-5-pro",
+    "alibaba/wan-2.7"
   ]
 }
