@@ -172,3 +172,13 @@ test("cache fees and discounts are bounded without excluding ordinary endpoints"
   assert.deepEqual(boundedEndpointPricing([{ pricing: { prompt: "0.1", completion: "0.2", input_cache_read: "0.05", input_cache_write: "0.15", discount: 0.3 } }]),
     { prompt: 0.15, completion: 0.2, request: 0 });
 });
+
+
+test("text probe bounds tiered prices and reasoning but does not invoke priced media or search", () => {
+  assert.deepEqual(boundedEndpointPricing([{ pricing: {
+    prompt: "0.1", completion: "0.2", internal_reasoning: "0.3", input_cache_write_1h: "0.15",
+    web_search: "10", image: "20", audio: "30", input_audio_cache: "10",
+    overrides: [{ min_prompt_tokens: 272000, prompt: "0.4", completion: "0.5" }],
+  } }]), { prompt: 0.4, completion: 0.8, request: 0 });
+  assert.equal(boundedEndpointPricing([{ pricing: { prompt: null, completion: "0.2" } }]), null);
+});

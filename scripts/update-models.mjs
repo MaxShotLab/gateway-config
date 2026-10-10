@@ -185,16 +185,29 @@ async function fetchSupportedModelIds(url, token, maxRetries = 3) {
 
 function boundedEndpointPricing(endpoints) {
   if (!endpoints.length) return null;
-  const prices = endpoints.map((ep) => ep.pricing);
-  const known = new Set(["prompt", "completion", "request", "input_cache_read", "input_cache_write", "discount"]);
-  if (prices.some((price) => !price || ["prompt", "completion"].some((key) =>
-    price[key] === undefined || finiteNumber(price[key]) === null || Number(price[key]) < 0) ||
-    Object.entries(price).some(([key, value]) =>
-      (!known.has(key) && Number(value) !== 0) ||
-      (known.has(key) && (finiteNumber(value) === null || Number(value) < 0))))) return null;
+  // These features are absent from the text-only probe, so their prices cannot apply.
+  const inactive = new Set(["web_search", "image", "audio", "video", "input_audio_cache", "audio_output"]);
+  const inputKeys = ["prompt", "input_cache_read", "input_cache_write", "input_cache_write_1h"];
+  const known = new Set([...inputKeys, "completion", "request", "internal_reasoning", "discount", "min_prompt_tokens", "max_prompt_tokens"]);
+  const prices = [];
+  for (const endpoint of endpoints) {
+    const base = endpoint.pricing;
+    if (!base || base.prompt == null || base.completion == null ||
+        (base.overrides !== undefined && !Array.isArray(base.overrides))) return null;
+    for (const override of [null, ...asArray(base.overrides)]) {
+      if (override !== null && (!override || typeof override !== "object" || Array.isArray(override))) return null;
+      const price = { ...base, ...override };
+      delete price.overrides;
+      if (Object.entries(price).some(([key, value]) => !inactive.has(key) && (
+        (!known.has(key) && Number(value) !== 0) ||
+        (known.has(key) && (value === null || value === "" || finiteNumber(value) === null || Number(value) < 0))))) return null;
+      prices.push(price);
+    }
+  }
   return {
-    prompt: Math.max(...prices.flatMap((price) => ["prompt", "input_cache_read", "input_cache_write"].map((key) => Number(price[key] ?? 0)))),
-    completion: Math.max(...prices.map((price) => Number(price.completion))),
+    prompt: Math.max(...prices.flatMap((price) => inputKeys.map((key) => Number(price[key] ?? 0)))),
+    // Conservatively bound separate internal reasoning charges as well as output tokens.
+    completion: Math.max(...prices.map((price) => Number(price.completion) + Number(price.internal_reasoning ?? 0))),
     request: Math.max(...prices.map((price) => Number(price.request ?? 0))),
   };
 }

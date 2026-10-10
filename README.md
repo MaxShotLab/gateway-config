@@ -48,7 +48,9 @@ Limits: $2 per run, 40 distinct Chat candidates, 60 inference requests, concurre
 2, 90 seconds per request and 20 minutes from run start. Metadata fetches are
 non-inference requests. Before dispatch the updater reserves a conservative cost
 using the maximum endpoint input/output/request prices, 4096 input tokens and the
-output cap. Unknown positive fees or incomplete pricing prevent dispatch. Actual
+output cap. Tiered prices, cache-write prices and separate internal reasoning fees are bounded;
+prices for absent media/search features do not apply to this text-only probe.
+Unknown positive fees or incomplete pricing prevent dispatch. Actual
 reported cost replaces the reservation; missing cost or timeout retains it.
 These are application guards, not an OpenRouter account spending limit: use an
 account-level key limit for an independent hard ceiling. A reported overrun aborts
