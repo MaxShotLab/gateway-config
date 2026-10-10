@@ -7,7 +7,7 @@
  *   1. Fetch model data from OpenRouter APIs
  *   2. Gate against new-api supported model set
  *   3. Score, filter, and allocate 24 models across 6 categories
- *   4. Probe free-tier models for inference availability
+ *   4. Probe every selected model using production-default Chat parameters
  *   5. Write chat-models.json only when the selection fingerprint changes
  *
  * Environment variables:
@@ -183,6 +183,22 @@ async function fetchSupportedModelIds(url, token, maxRetries = 3) {
 
 // ─── Endpoint Health ─────────────────────────────────────────────────────────
 
+function boundedEndpointPricing(endpoints) {
+  if (!endpoints.length) return null;
+  const prices = endpoints.map((ep) => ep.pricing);
+  const known = new Set(["prompt", "completion", "request", "input_cache_read", "input_cache_write", "discount"]);
+  if (prices.some((price) => !price || ["prompt", "completion"].some((key) =>
+    price[key] === undefined || finiteNumber(price[key]) === null || Number(price[key]) < 0) ||
+    Object.entries(price).some(([key, value]) =>
+      (!known.has(key) && Number(value) !== 0) ||
+      (known.has(key) && (finiteNumber(value) === null || Number(value) < 0))))) return null;
+  return {
+    prompt: Math.max(...prices.flatMap((price) => ["prompt", "input_cache_read", "input_cache_write"].map((key) => Number(price[key] ?? 0)))),
+    completion: Math.max(...prices.map((price) => Number(price.completion))),
+    request: Math.max(...prices.map((price) => Number(price.request ?? 0))),
+  };
+}
+
 async function fetchEndpointHealth(apiKey, modelId) {
   const [author, ...slugParts] = modelId.split("/");
   const pathname = `/models/${encodeURIComponent(author)}/${encodeURIComponent(slugParts.join("/"))}/endpoints`;
@@ -197,6 +213,7 @@ async function fetchEndpointHealth(apiKey, modelId) {
     const uptimes = healthy.map((ep) => Number(ep.uptime_last_1d)).filter(Number.isFinite);
     return {
       verified: true,
+      probePricing: boundedEndpointPricing(endpoints),
       available: healthy.length > 0,
       endpointCount: endpoints.length,
       healthyEndpointCount: healthy.length,
@@ -210,82 +227,153 @@ async function fetchEndpointHealth(apiKey, modelId) {
 
 // ─── Inference Probes ────────────────────────────────────────────────────────
 
-function parseInferenceResponse(httpStatus, raw, latencyMs) {
-  if (httpStatus < 200 || httpStatus >= 300) {
-    let error = { code: null, message: null };
-    try { const body = JSON.parse(raw); error = { code: body?.error?.code ?? null, message: body?.error?.message ?? null }; } catch {}
-    return { success: false, httpStatus, latencyMs, provider: null, finishReason: null, errorCode: error.code, reason: error.message || `OpenRouter returned HTTP ${httpStatus}` };
+const PROBE_LIMITS = { budgetUsd: 2, models: 40, requests: 60, timeoutMs: 90_000, durationMs: 1_200_000 };
+
+function buildProbeRequest(model, profile = "chat") {
+  return {
+    model: model.id, stream: true, stream_options: { include_usage: true },
+    max_tokens: model.supportsReasoning ? 4096 : 256,
+    messages: profile === "optimize"
+      ? [{ role: "system", content: "You are a professional prompt engineer. Return only the improved prompt." },
+        { role: "user", content: "Improve this image prompt briefly: a red apple on a table." }]
+      : [{ role: "user", content: "Reply with exactly OK." }],
+    ...(profile === "chat" && model.supportsReasoning ? { reasoning: { effort: "medium" } } : {}),
+  };
+}
+
+function parseInferenceResponse(httpStatus, raw, latencyMs, expectedModel) {
+  let content = "", provider = null, finishReason = null, error = null, usage = null, done = false;
+  const returnedModels = new Set();
+  const consume = (event) => {
+    provider ??= event.provider ?? null;
+    if (event.model) returnedModels.add(event.model);
+    if (event.usage) usage = event.usage;
+    const delta = event.choices?.[0]?.delta?.content;
+    if (typeof delta === "string") content += delta;
+    finishReason = event.choices?.[0]?.finish_reason ?? finishReason;
+    if (event.error) error = event.error;
+  };
+  if (!raw.trimStart().startsWith("data:") && !raw.trimStart().startsWith(":")) {
+    try { consume(JSON.parse(raw)); } catch { error = { message: "Invalid inference response" }; }
+  } else {
+    for (const block of raw.replace(/\r\n/g, "\n").split(/\n\n/)) {
+      const data = block.split("\n").filter((line) => line.startsWith("data:"))
+        .map((line) => line.slice(5).trimStart()).join("\n");
+      if (!data) continue;
+      if (data === "[DONE]") { done = true; continue; }
+      try { consume(JSON.parse(data)); } catch { error = { message: "Invalid stream event" }; }
+    }
   }
-  let content = "", provider = null, finishReason = null, streamError = null;
-  for (const line of raw.split(/\r?\n/)) {
-    if (!line.startsWith("data: ") || line === "data: [DONE]") continue;
+  const allowed = expectedModel ? new Set([expectedModel.id, expectedModel.canonicalSlug]) : null;
+  const mismatch = allowed && (returnedModels.size === 0 || [...returnedModels].some((id) => !allowed.has(id)));
+  const success = httpStatus >= 200 && httpStatus < 300 && !error && !mismatch && done &&
+    content.trim().length > 0 && finishReason === "stop";
+  const errorCode = error?.code ?? null;
+  const status = Number(errorCode) || httpStatus;
+  return {
+    success, httpStatus, latencyMs, provider, finishReason, usage, errorCode,
+    systemic: status === 401 || status === 402,
+    retryable: status === 429 || status >= 500 || (!error && !done && httpStatus === 200),
+    reason: success ? null : (typeof error?.message === "string" ? error.message.replace(/Bearer\s+\S+|sk-[A-Za-z0-9_-]+/gi, "[redacted]").slice(0, 500) : null) || (mismatch ? "Returned model identity mismatch" :
+      httpStatus >= 300 ? `OpenRouter returned HTTP ${httpStatus}` : !done ? "Incomplete stream" :
+      !content.trim() ? "No visible assistant content" : `Unexpected finish reason: ${finishReason}`),
+  };
+}
+
+// Reserve conservatively before dispatch; unknown charges retain the reservation.
+function estimateProbeCost(model, request) {
+  const price = model.health?.probePricing;
+  if (!price) return null;
+  return price.prompt * 4096 + price.completion * request.max_tokens + price.request;
+}
+
+async function probePortfolio(candidates, config, apiKey, options = {}) {
+  const limits = { ...PROBE_LIMITS, ...options.limits };
+  const fetchImpl = options.fetchImpl ?? fetch;
+  const wait = options.sleepImpl ?? sleep;
+  const startedAt = options.startedAt ?? Date.now();
+  const report = { startedAt: new Date(startedAt).toISOString(), limits, requests: 0, accountedUsd: 0,
+    actualUsd: 0, unknownCostRequests: 0, stopReason: null, probes: [], shortages: [] };
+  const results = new Map();
+  const attempted = new Set();
+  let systemicError = null;
+  async function probe(model, profile = "chat") {
+    const request = buildProbeRequest(model, profile);
+    const reservation = estimateProbeCost(model, request);
+    if (reservation === null) {
+      const result = { success: false, reason: "Complete bounded probe pricing unavailable", profile, model: model.id };
+      report.probes.push(result);
+      return result;
+    }
+    if (report.requests >= limits.requests || Date.now() - startedAt >= limits.durationMs ||
+        report.accountedUsd + reservation > limits.budgetUsd) {
+      report.stopReason = "Request, time or cost budget reached";
+      return { success: false, reason: report.stopReason };
+    }
+    report.requests++;
+    report.accountedUsd += reservation;
+    const begin = Date.now();
+    let result;
     try {
-      const event = JSON.parse(line.slice(6));
-      provider ??= event.provider ?? null;
-      const delta = event.choices?.[0]?.delta?.content;
-      if (typeof delta === "string") content += delta;
-      finishReason = event.choices?.[0]?.finish_reason ?? finishReason;
-      if (event.error) streamError = event.error.message || "OpenRouter stream error";
-    } catch { streamError = "Invalid OpenRouter stream event"; }
+      const response = await fetchImpl(`${OPENROUTER_BASE_URL}/chat/completions`, {
+        method: "POST", headers: openRouterHeaders(apiKey, "text/event-stream"),
+        body: JSON.stringify(request),
+        signal: AbortSignal.timeout(Math.max(1, Math.min(limits.timeoutMs, limits.durationMs - (Date.now() - startedAt)))),
+      });
+      result = parseInferenceResponse(response.status, await response.text(), Date.now() - begin, model);
+      result.retryAfterMs = Math.min(90_000, Math.max(0, Number(response.headers.get("retry-after")) * 1000 ||
+        Date.parse(response.headers.get("retry-after")) - Date.now() || 1000));
+    } catch (error) {
+      result = { success: false, reason: error.name === "TimeoutError" ? "Inference timed out" : "Inference transport failed",
+        retryable: true, latencyMs: Date.now() - begin };
+    }
+    const cost = result.usage?.cost;
+    if (typeof cost === "number" && Number.isFinite(cost) && cost >= 0) {
+      report.accountedUsd += cost - reservation;
+      report.actualUsd += cost;
+      if (cost > reservation + 0.000001) systemicError = "Reported charge exceeded reserved price bound";
+    } else report.unknownCostRequests++;
+    report.probes.push({ model: model.id, profile, reservedUsd: reservation, ...result });
+    if (result.systemic) systemicError = `Shared OpenRouter account failure (${result.errorCode || result.httpStatus})`;
+    return result;
   }
-  const success = !streamError && content.trim().length > 0 && finishReason === "stop";
-  return {
-    success, httpStatus, latencyMs, provider, finishReason, errorCode: null,
-    reason: streamError || (content.trim().length === 0 ? "No assistant content returned" : null) || (finishReason !== "stop" ? `Unexpected finish reason: ${finishReason || "missing"}` : null),
-  };
-}
-
-function summarizeInferenceAttempts(attempts) {
-  const successful = attempts.filter((a) => a.success);
-  const latencyMs = successful.length > 0 ? Math.round(successful.reduce((s, a) => s + a.latencyMs, 0) / successful.length) : null;
-  const last = attempts.at(-1);
-  return {
-    verified: true,
-    available: successful.length > 0,
-    attempts: attempts.length,
-    successes: successful.length,
-    latencyMs,
-    provider: successful.at(-1)?.provider ?? last?.provider ?? null,
-    checkedAt: new Date().toISOString(),
-    rateLimited: attempts.length > 0 && attempts.every((a) => a.httpStatus === 429),
-    reason: successful.length > 0 ? null : last?.reason || "Inference probe failed",
-  };
-}
-
-function hasSystemicRateLimit(results) {
-  if (results.length < 2) return false;
-  return results.filter((r) => r.rateLimited).length >= Math.ceil(results.length / 2);
-}
-
-async function probeOnce(apiKey, model) {
-  const startedAt = Date.now();
-  try {
-    const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
-      method: "POST",
-      headers: openRouterHeaders(apiKey, "text/event-stream"),
-      body: JSON.stringify({
-        model: model.id,
-        messages: [{ role: "user", content: "Reply with exactly OK." }],
-        stream: true,
-        temperature: 0,
-        max_tokens: 256,
-        ...(model.supportsReasoning ? { reasoning: { effort: "medium" } } : {}),
-      }),
-      signal: AbortSignal.timeout(30_000),
-    });
-    return parseInferenceResponse(response.status, await response.text(), Date.now() - startedAt);
-  } catch (error) {
-    return { success: false, httpStatus: null, latencyMs: Date.now() - startedAt, provider: null, finishReason: null, errorCode: error.name, reason: error.message };
+  async function check(model, profile = "chat") {
+    let result = await probe(model, profile);
+    if (!result.success && result.retryable && !systemicError && !report.stopReason) {
+      await wait(result.retryAfterMs || 1000);
+      if (!systemicError) result = await probe(model, profile);
+    }
+    return result;
   }
-}
-
-async function probeFreeModel(apiKey, model) {
-  const attempts = [await probeOnce(apiKey, model)];
-  if (!attempts[0].success) {
-    await sleep(1_000);
-    attempts.push(await probeOnce(apiKey, model));
+  while (!systemicError && !report.stopReason) {
+    const eligible = candidates.filter((m) => !m.hardGateReasons.length && results.get(m.id)?.success !== false);
+    const proposed = selectPortfolio(eligible, config);
+    const pending = proposed.selected.filter((m) => !attempted.has(m.id));
+    if (!pending.length || attempted.size >= limits.models) break;
+    const batch = pending.slice(0, Math.min(2, limits.models - attempted.size));
+    await Promise.all(batch.map(async (model) => {
+      attempted.add(model.id);
+      results.set(model.id, await check(model));
+    }));
+    const rateLimits = report.probes.filter((p) => p.httpStatus === 429 || Number(p.errorCode) === 429);
+    if (report.requests >= 4 && rateLimits.length >= Math.ceil(report.requests / 2)) {
+      systemicError = "Systemic inference rate limiting";
+    }
   }
-  return summarizeInferenceAttempts(attempts);
+  const portfolio = selectPortfolio(candidates.filter((m) => results.get(m.id)?.success), config);
+  report.shortages = portfolio.shortages;
+  let defaultId = null;
+  const preferred = portfolio.selected.filter((m) => ["balanced", "economy"].includes(m.category));
+  for (const model of [...preferred, ...portfolio.selected.filter((m) => !preferred.includes(m))]) {
+    if (systemicError) break;
+    if ((await check(model, "optimize")).success) { defaultId = model.id; break; }
+    if (report.stopReason) break;
+  }
+  report.selected = portfolio.selected.map((m) => m.id);
+  report.defaultId = defaultId;
+  report.finishedAt = new Date().toISOString();
+  report.systemicError = systemicError;
+  return { portfolio, defaultId, report, error: systemicError || (!defaultId ? "No verified prompt-optimization default" : null) };
 }
 
 // ─── Monthly Rankings ────────────────────────────────────────────────────────
@@ -425,19 +513,6 @@ function applySupportedModelGate(candidates, supportedModelIds) {
     : { ...model, hardGateReasons: [...model.hardGateReasons, "Unavailable in new-api"] });
 }
 
-// ─── Free Inference Gate ─────────────────────────────────────────────────────
-
-function applyFreeInferenceHealth(candidates, inferenceHealth) {
-  return candidates.map((model) => {
-    if (!model.eligibility.free) return model;
-    const probe = inferenceHealth.get(model.id);
-    const gates = [...model.hardGateReasons];
-    if (!probe?.verified) gates.push("Inference not verified");
-    else if (!probe.available) gates.push(probe.reason || "Inference unavailable");
-    return { ...model, inferenceHealth: probe ?? null, hardGateReasons: gates };
-  });
-}
-
 // ─── Portfolio Selection ─────────────────────────────────────────────────────
 
 function selectPortfolio(candidates, config) {
@@ -466,8 +541,8 @@ function selectPortfolio(candidates, config) {
 
 // ─── Output Formatting ──────────────────────────────────────────────────────
 
-function buildChatModelsJson(selected) {
-  const defaultModel = selected.find((m) => ["balanced", "economy"].includes(m.category) && m.health?.available) ?? selected[0];
+function buildChatModelsJson(selected, defaultId) {
+  const defaultModel = selected.find((m) => m.id === defaultId) ?? selected.find((m) => ["balanced", "economy"].includes(m.category) && m.health?.available) ?? selected[0];
   const recommended = selected.find((m) => m.category === "flagship") ?? selected[0];
 
   return Object.fromEntries(selected.map((model, index) => {
@@ -532,7 +607,7 @@ async function main() {
   const config = DEFAULT_STRATEGY;
   const now = new Date();
   const nowMs = now.getTime();
-  const freeProbePoolSize = config.quotas.free * 2;
+  const startedAt = Date.now();
 
   // Step 1: Fetch supported model IDs from new-api
   const supportedModelIds = await fetchSupportedModelIds(newApiUrl, newApiToken);
@@ -562,41 +637,13 @@ async function main() {
     supportedModelIds,
   );
 
-  // Step 6: Probe free model candidates
-  const freeProbePool = scored
-    .filter((m) => m.hardGateReasons.length === 0 && m.eligibility.free)
-    .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
-    .slice(0, freeProbePoolSize);
-
-  console.log(`Probing free models (${freeProbePool.length} candidates, concurrency 2)...`);
-  const probeChecks = await mapWithConcurrency(freeProbePool, 2, async (m) => {
-    const result = await probeFreeModel(apiKey, m);
-    console.log(`  ${m.id}: ${result.available ? "PASS" : "FAIL"} (${result.reason || "ok"})`);
-    return [m.id, result];
-  });
-  const inferenceHealth = new Map(probeChecks);
-  const probeResults = [...inferenceHealth.values()];
-
-  if (hasSystemicRateLimit(probeResults)) {
-    console.error("Error: Free-model inference probes were systemically rate limited. Aborting.");
-    process.exit(1);
-  }
-
-  const probePassed = probeResults.filter((r) => r.available).length;
-  console.log(`  passed: ${probePassed}/${probeResults.length}`);
-
-  // Step 7: Apply free inference gate and select portfolio
-  const candidates = applyFreeInferenceHealth(scored, inferenceHealth);
-  const portfolio = selectPortfolio(candidates, config);
-
-  if (portfolio.shortages.length > 0 || portfolio.selected.length !== MODEL_COUNT) {
-    const detail = portfolio.shortages.map((s) => `${s.category} ${s.found}/${s.target}`).join(", ");
-    console.error(`Error: Incomplete portfolio (${detail || `${portfolio.selected.length}/${MODEL_COUNT}`}). Aborting.`);
-    process.exit(1);
-  }
-
-  // Step 8: Build output JSON
-  const chatModels = buildChatModelsJson(portfolio.selected);
+  // Publish only models verified in this run; shortages are warnings, not stale-list fallback.
+  const { portfolio, defaultId, report, error } = await probePortfolio(scored, config, apiKey, { startedAt });
+  await fs.writeFile(path.join(rootDir, "chat-probe-report.json"), JSON.stringify(report, null, 2) + "\n");
+  console.log(`Inference: ${report.requests} requests; actual $${report.actualUsd.toFixed(6)}; accounted $${report.accountedUsd.toFixed(6)}`);
+  if (error) throw new Error(error);
+  if (portfolio.shortages.length) console.warn(`Partial selection: ${portfolio.selected.length}/${MODEL_COUNT}; ${JSON.stringify(portfolio.shortages)}`);
+  const chatModels = buildChatModelsJson(portfolio.selected, defaultId);
   const output = JSON.stringify(chatModels, null, "\t") + "\n";
 
   // Step 9: Compare with existing file
@@ -631,7 +678,7 @@ async function main() {
   for (const m of portfolio.selected) categories[m.category] = (categories[m.category] || 0) + 1;
   const providers = new Set(portfolio.selected.map((m) => m.provider));
 
-  console.log("\n✅ chat-models.json updated successfully!");
+  console.log("\nchat-models.json updated successfully!");
   console.log(`  models: ${portfolio.selected.length}`);
   console.log(`  providers: ${providers.size} (${[...providers].sort().join(", ")})`);
   console.log(`  categories: ${CATEGORY_ORDER.map((c) => `${c}: ${categories[c] || 0}`).join(", ")}`);
@@ -641,7 +688,7 @@ async function main() {
   }
 }
 
-export { DEFAULT_STRATEGY, prepareCandidates, selectPortfolio, buildChatModelsJson };
+export { DEFAULT_STRATEGY, prepareCandidates, selectPortfolio, buildChatModelsJson, buildProbeRequest, parseInferenceResponse, estimateProbeCost, boundedEndpointPricing, probePortfolio };
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main().catch((error) => {

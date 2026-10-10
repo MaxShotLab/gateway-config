@@ -12,6 +12,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     permissions:
       contents: write
     steps:
@@ -32,6 +33,15 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           NEW_API_URL: ${{ secrets.NEW_API_URL }}
           NEW_API_TOKEN: ${{ secrets.NEW_API_TOKEN }}
+
+      - name: Upload inference report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: chat-inference-report
+          path: chat-probe-report.json
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Commit and push if changed
         if: ${{ !cancelled() && steps.chat.outcome == 'success' }}

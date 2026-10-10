@@ -10,14 +10,58 @@ ID or canonical slug, including versioned and Contributor variants. Public
 OpenRouter endpoint status/uptime currently does not expose its age-confirmation
 gate, so healthy endpoints alone cannot override this exclusion. Add further
 confirmed gated families to the updater rule when discovered; unknown gates are
-not claimed to be detectable from the public catalog. Incomplete selections
-continue retaining the previous configuration rather than relaxing hard gates.
+not claimed to be detectable from the public catalog. Actual inference detects
+unknown restrictions for the probing account; it cannot guarantee future uptime.
 
 The 2026-10-10 incident configuration removes Muse Spark and sets `z-ai/glm-5.3`
 as the sole temporary Chat default. GLM 5.3 was already selected, leaving 23
 models. Subsequent successful daily updates retain the normal 24-model target
 and choose the default through the existing algorithm; GLM 5.3 is not pinned.
 Run `npm test` for offline Chat and Studio regression checks.
+
+## Chat inference admission
+
+Every published Chat model, paid or free, must pass a minimal streaming completion
+in the current run. Ranked category allocation still targets 24 models; failed
+candidates are replaced in category order. A smaller verified list is published
+with shortage warnings. No old unverified model is retained to fill a quota.
+A shared authentication/payment error, systemic rate limit, missing verified
+optimization default or source failure retains the previous file and fails the job.
+
+Probes call OpenRouter directly with `OPENROUTER_API_KEY`. This secret must belong
+to the same upstream account used online. The new-api supported-model gate remains;
+this does **not** verify the complete Maxshot/new-api forwarding chain. Known
+attestation exclusions remain in place. Normal probes use streaming, usage reporting,
+no tools or sampling overrides, and medium reasoning when the UI default enables
+reasoning. The minimal user prompt asks for `OK`. Non-reasoning output is capped
+at 256 tokens; reasoning-capable models use 4096, including reasoning tokens.
+This is a maximum, not the expected consumption. The selected default also passes
+a short system/user prompt-optimization request without an explicit reasoning patch.
+Failure tries another already verified default; GLM is not permanently pinned.
+
+Acceptance requires visible assistant text, `finish_reason=stop`, `[DONE]`, no
+stream error and a matching returned model ID/canonical slug. HTTP 200 alone is
+insufficient. Transient transport errors, 429 and 5xx retry once with backoff;
+confirmed permission, attestation and parameter failures are not blindly retried.
+
+Limits: $2 per run, 40 distinct Chat candidates, 60 inference requests, concurrency
+2, 90 seconds per request and 20 minutes from run start. Metadata fetches are
+non-inference requests. Before dispatch the updater reserves a conservative cost
+using the maximum endpoint input/output/request prices, 4096 input tokens and the
+output cap. Unknown positive fees or incomplete pricing prevent dispatch. Actual
+reported cost replaces the reservation; missing cost or timeout retains it.
+These are application guards, not an OpenRouter account spending limit: use an
+account-level key limit for an independent hard ceiling. A reported overrun aborts
+publication. Ordinary successful 24-model runs use about 25 requests; failed
+candidates, retries and replacement defaults add requests within the limits.
+
+`chat-probe-report.json` records per-request status, provider, usage, cost,
+reservations, shortages and the selected default. It is ignored by Git and uploaded
+as a 30-day Actions artifact. No keys, prompts, assistant text, database storage
+or new public response fields are added. Daily refresh publishes valid partial
+selections; shared failures retain the previous catalog and require investigation.
+Run `npm test` for offline fixtures; running `node scripts/update-models.mjs` with
+valid credentials performs paid inference. Studio selection is unchanged.
 
 Automatic updates of `studio-models.json` are paused. The Studio updater remains
 available for local manual runs.
