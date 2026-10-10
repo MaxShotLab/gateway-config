@@ -222,7 +222,8 @@
 					"effort": "medium"
 				}
 			}
-		}
+		},
+		"chatDefault": true
 	},
 	"google/gemini-3.8-flash": {
 		"displayName": "Google: Gemini 3.8 Flash",
@@ -326,39 +327,6 @@
 		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 110,
-		"capabilities": {
-			"files": true,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
-	"meta/muse-spark-1.3-contributor": {
-		"displayName": "Meta: Muse Spark 1.3 Contributor",
-		"description": "Muse Spark 1.3 Contributor is the cost-efficient contributor tier of Meta’s multimodal reasoning model for experimentation, learning, and early-stage agentic, multi-agent, and coding workflows. It is designed to track information...",
-		"tier": "economy",
-		"chatEnabled": true,
-		"chatRank": 120,
-		"chatDefault": true,
 		"capabilities": {
 			"files": true,
 			"vision": true,

@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Run offline selection tests
+        run: npm test
+
       - name: Run chat model selection algorithm
         id: chat
         continue-on-error: true

@@ -6,7 +6,7 @@
  * Replicates the Model Selection Algorithm (ALGORITHM_REFERENCE.md) to:
  *   1. Fetch model data from OpenRouter APIs
  *   2. Gate against new-api supported model set
- *   3. Score, filter, and allocate 30 models across 6 categories
+ *   3. Score, filter, and allocate 24 models across 6 categories
  *   4. Probe free-tier models for inference availability
  *   5. Write chat-models.json only when the selection fingerprint changes
  *
@@ -44,6 +44,9 @@ const FLAGSHIP_AUTHORS = new Set([
   "moonshotai", "openai", "qwen", "x-ai", "z-ai",
 ]);
 const BLOCKED_ID = /(^openrouter\/|^stealth\/|\b(alpha|beta)\b|:(nitro|floor|thinking|extended)$)/i;
+// OpenRouter public endpoint status does not expose account attestation gates.
+// Exclude the confirmed age-gated family, including future versions and variants.
+const ACCOUNT_ATTESTATION_GATED_ID = /^meta\/muse-spark(?:[-/:]|$)/i;
 const CODE_ID = /(code|coder|codestral|devstral|programming)/i;
 
 const rootDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -333,6 +336,9 @@ function hardGateReasons(raw, config, nowMs) {
   const expirationMs = raw.expiration_date ? Date.parse(raw.expiration_date) : null;
 
   if (typeof raw.id !== "string" || !raw.id.includes("/")) reasons.push("Invalid model ID");
+  if ([raw.id, raw.canonical_slug].some((id) => typeof id === "string" && ACCOUNT_ATTESTATION_GATED_ID.test(id))) {
+    reasons.push("Requires provider account attestation");
+  }
   if (BLOCKED_ID.test(`${raw.id ?? ""} ${raw.name ?? ""}`)) reasons.push("Dynamic or experimental model");
   if (config.filters.requireTextOutput && !outputs.includes("text")) reasons.push("No text output");
   if (!inputs.includes("text")) reasons.push("No text input");
@@ -635,9 +641,13 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(`\nFatal error: ${error.message}`);
-  if (error.cause) console.error("Cause:", error.cause);
-  if (error.stack) console.error(error.stack);
-  process.exit(1);
-});
+export { DEFAULT_STRATEGY, prepareCandidates, selectPortfolio, buildChatModelsJson };
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(`\nFatal error: ${error.message}`);
+    if (error.cause) console.error("Cause:", error.cause);
+    if (error.stack) console.error(error.stack);
+    process.exit(1);
+  });
+}

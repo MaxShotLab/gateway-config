@@ -4,6 +4,21 @@
 through manual GitHub Actions dispatch. Failed selections retain the previous
 configuration and are reported as workflow failures.
 
+Chat selection excludes known models requiring provider account attestations before
+scoring or probing. The confirmed `meta/muse-spark` family is excluded by public
+ID or canonical slug, including versioned and Contributor variants. Public
+OpenRouter endpoint status/uptime currently does not expose its age-confirmation
+gate, so healthy endpoints alone cannot override this exclusion. Add further
+confirmed gated families to the updater rule when discovered; unknown gates are
+not claimed to be detectable from the public catalog. Incomplete selections
+continue retaining the previous configuration rather than relaxing hard gates.
+
+The 2026-10-10 incident configuration removes Muse Spark and sets `z-ai/glm-5.3`
+as the sole temporary Chat default. GLM 5.3 was already selected, leaving 23
+models. Subsequent successful daily updates retain the normal 24-model target
+and choose the default through the existing algorithm; GLM 5.3 is not pinned.
+Run `npm test` for offline Chat and Studio regression checks.
+
 Automatic updates of `studio-models.json` are paused. The Studio updater remains
 available for local manual runs.
 

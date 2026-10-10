@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test scripts/update-studio-models.test.mjs",
+    "test": "node --test scripts/*.test.mjs",
     "update:studio": "node scripts/update-studio-models.mjs"
   }
 }
