@@ -182,3 +182,21 @@ test("text probe bounds tiered prices and reasoning but does not invoke priced m
   } }]), { prompt: 0.4, completion: 0.8, request: 0 });
   assert.equal(boundedEndpointPricing([{ pricing: { prompt: null, completion: "0.2" } }]), null);
 });
+
+
+test("time-window overrides are pricing conditions and their upper price is reserved", () => {
+  assert.deepEqual(boundedEndpointPricing([{ pricing: { prompt: "0.1", completion: "0.2", overrides: [
+    { utc_start: 100, utc_end: 400, utc_days: ["monday"], prompt: "0.3" },
+  ] } }]), { prompt: 0.3, completion: 0.2, request: 0 });
+});
+
+test("an unaffordable candidate does not block affordable replacements", async () => {
+  const candidates = fixture(["z-ai/one", "z-ai/two", "z-ai/three"]);
+  candidates[0].health.probePricing.completion = 1;
+  const result = await probePortfolio(candidates, smallConfig(2), "fake", {
+    fetchImpl: async (_, init) => fakeResponse(200, stream(JSON.parse(init.body).model)),
+  });
+  assert.equal(result.error, null);
+  assert.equal(result.report.stopReason, null);
+  assert.deepEqual(result.portfolio.selected.map((m) => m.id), ["z-ai/two", "z-ai/three"]);
+});

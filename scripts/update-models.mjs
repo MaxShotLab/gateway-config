@@ -186,7 +186,7 @@ async function fetchSupportedModelIds(url, token, maxRetries = 3) {
 function boundedEndpointPricing(endpoints) {
   if (!endpoints.length) return null;
   // These features are absent from the text-only probe, so their prices cannot apply.
-  const inactive = new Set(["web_search", "image", "audio", "video", "input_audio_cache", "audio_output"]);
+  const inactive = new Set(["web_search", "image", "audio", "video", "input_audio_cache", "audio_output", "utc_start", "utc_end", "utc_days"]);
   const inputKeys = ["prompt", "input_cache_read", "input_cache_write", "input_cache_write_1h"];
   const known = new Set([...inputKeys, "completion", "request", "internal_reasoning", "discount", "min_prompt_tokens", "max_prompt_tokens"]);
   const prices = [];
@@ -319,9 +319,15 @@ async function probePortfolio(candidates, config, apiKey, options = {}) {
       return result;
     }
     if (report.requests >= limits.requests || Date.now() - startedAt >= limits.durationMs ||
-        report.accountedUsd + reservation > limits.budgetUsd) {
+        report.accountedUsd >= limits.budgetUsd) {
       report.stopReason = "Request, time or cost budget reached";
       return { success: false, reason: report.stopReason };
+    }
+    if (report.accountedUsd + reservation > limits.budgetUsd) {
+      const result = { success: false, model: model.id, profile, reservedUsd: reservation,
+        reason: "Candidate price bound exceeds remaining budget" };
+      report.probes.push(result);
+      return result;
     }
     report.requests++;
     report.accountedUsd += reservation;
