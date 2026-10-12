@@ -224,16 +224,16 @@
 			}
 		}
 	},
-	"stepfun/step-5-preview": {
-		"displayName": "StepFun: Step 5 Preview",
-		"description": "Step 5 Preview is StepFun's flagship model for agentic work, built on a sparse Mixture-of-Experts architecture (27B active / 600B total parameters). It performs strongly in software engineering and professional...",
-		"tier": "reasoning",
+	"google/gemini-3.8-flash": {
+		"displayName": "Google: Gemini 3.8 Flash",
+		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
+		"tier": "flagship",
 		"chatEnabled": true,
 		"chatRank": 80,
 		"capabilities": {
-			"files": false,
+			"files": true,
 			"vision": true,
-			"audio": false,
+			"audio": true,
 			"webSearch": true,
 			"reasoning": true
 		},
@@ -256,14 +256,14 @@
 			}
 		}
 	},
-	"google/gemini-3.8-flash": {
-		"displayName": "Google: Gemini 3.8 Flash",
-		"description": "Gemini 3.8 Flash is Google's most intelligent Flash model with significant gains from 3.7 Flash across software engineering, agentic tasks, and multi-step reasoning.",
-		"tier": "flagship",
+	"xiaomi/mimo-v2.6-pro": {
+		"displayName": "Xiaomi: MiMo-V2.6-Pro",
+		"description": "MiMo-V2.6-Pro is the flagship foundation model developed by Xiaomi. Built at a scale of over 1T parameters, it is designed to push the ceiling of capability for the most demanding...",
+		"tier": "reasoning",
 		"chatEnabled": true,
 		"chatRank": 90,
 		"capabilities": {
-			"files": true,
+			"files": false,
 			"vision": true,
 			"audio": true,
 			"webSearch": true,
@@ -320,44 +320,12 @@
 			}
 		}
 	},
-	"xiaomi/mimo-v2.6-pro": {
-		"displayName": "Xiaomi: MiMo-V2.6-Pro",
-		"description": "MiMo-V2.6-Pro is the flagship foundation model developed by Xiaomi. Built at a scale of over 1T parameters, it is designed to push the ceiling of capability for the most demanding...",
-		"tier": "reasoning",
-		"chatEnabled": true,
-		"chatRank": 110,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": true,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
 	"deepseek/deepseek-v4-flash": {
 		"displayName": "DeepSeek: DeepSeek V4 Flash 0423",
 		"description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
 		"tier": "flagship",
 		"chatEnabled": true,
-		"chatRank": 120,
+		"chatRank": 110,
 		"capabilities": {
 			"files": false,
 			"vision": false,
@@ -387,12 +355,44 @@
 	"openai/gpt-6-sol": {
 		"displayName": "OpenAI: GPT-6 Sol",
 		"description": "GPT-6 Sol is the cost-efficient high-end model in OpenAI's GPT-6 series, positioned below the flagship GPT-6 Astra and above the fast GPT-6 Luna tier. It is suited for demanding professional...",
+		"tier": "reasoning",
+		"chatEnabled": true,
+		"chatRank": 120,
+		"capabilities": {
+			"files": true,
+			"vision": true,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"moonshotai/kimi-k3": {
+		"displayName": "MoonshotAI: Kimi K3",
+		"description": "Kimi K3 is a 2.8T parameter open-weight multimodal reasoning model from Moonshot AI. It is suited for complex coding, knowledge work, and long-horizon agentic workflows, and is particularly strong at...",
 		"tier": "balanced",
 		"chatEnabled": true,
 		"chatRank": 130,
 		"chatDefault": true,
 		"capabilities": {
-			"files": true,
+			"files": false,
 			"vision": true,
 			"audio": false,
 			"webSearch": true,
@@ -449,44 +449,12 @@
 			}
 		}
 	},
-	"moonshotai/kimi-k3": {
-		"displayName": "MoonshotAI: Kimi K3",
-		"description": "Kimi K3 is a 2.8T parameter open-weight multimodal reasoning model from Moonshot AI. It is suited for complex coding, knowledge work, and long-horizon agentic workflows, and is particularly strong at...",
-		"tier": "balanced",
-		"chatEnabled": true,
-		"chatRank": 150,
-		"capabilities": {
-			"files": false,
-			"vision": true,
-			"audio": false,
-			"webSearch": true,
-			"reasoning": true
-		},
-		"requestPatches": {
-			"webSearch": {
-				"tools": [
-					{
-						"type": "openrouter:web_search",
-						"parameters": {
-							"engine": "exa",
-							"max_results": 5
-						}
-					}
-				]
-			},
-			"reasoning": {
-				"reasoning": {
-					"effort": "medium"
-				}
-			}
-		}
-	},
 	"tencent/hy4-preview": {
 		"displayName": "Tencent: Hy4 preview",
 		"description": "Tencent: Hy4 preview is a mixture-of-experts model from Tencent, with 49B active parameters out of 770B total. It is designed for coding agents, complex tool-use workflows, and productivity tasks that...",
 		"tier": "balanced",
 		"chatEnabled": true,
-		"chatRank": 160,
+		"chatRank": 150,
 		"capabilities": {
 			"files": false,
 			"vision": false,
@@ -518,7 +486,7 @@
 		"description": "GPT-5.6 Sol is the flagship model in OpenAI's GPT-5.6 series. It is suited for complex reasoning, coding, and agentic workflows, and is particularly strong at command-line and multi-step coding tasks...",
 		"tier": "balanced",
 		"chatEnabled": true,
-		"chatRank": 170,
+		"chatRank": 160,
 		"capabilities": {
 			"files": true,
 			"vision": true,
@@ -550,10 +518,42 @@
 		"description": "Solar Pro 4 is Upstage's cost-efficient large language model, featuring a 524K context window. It is built for long-horizon tasks and agentic workflows, with strong capabilities in office productivity, document-intensive...",
 		"tier": "economy",
 		"chatEnabled": true,
-		"chatRank": 180,
+		"chatRank": 170,
 		"capabilities": {
 			"files": false,
 			"vision": false,
+			"audio": false,
+			"webSearch": true,
+			"reasoning": true
+		},
+		"requestPatches": {
+			"webSearch": {
+				"tools": [
+					{
+						"type": "openrouter:web_search",
+						"parameters": {
+							"engine": "exa",
+							"max_results": 5
+						}
+					}
+				]
+			},
+			"reasoning": {
+				"reasoning": {
+					"effort": "medium"
+				}
+			}
+		}
+	},
+	"minimax/minimax-m3": {
+		"displayName": "MiniMax: MiniMax M3",
+		"description": "MiniMax-M3 is a multimodal foundation model from MiniMax. It supports text, image, and video inputs with text output, a 1M-token context window, and is suited for long-horizon agentic work, coding,...",
+		"tier": "balanced",
+		"chatEnabled": true,
+		"chatRank": 180,
+		"capabilities": {
+			"files": false,
+			"vision": true,
 			"audio": false,
 			"webSearch": true,
 			"reasoning": true
@@ -705,9 +705,9 @@
 			}
 		}
 	},
-	"cohere/north-mini-code:free": {
-		"displayName": "Cohere: North Mini Code (free)",
-		"description": "North Mini Code is Cohere's first agentic coding model and the debut of its North family. A sparse mixture-of-experts model with 30B total parameters and 3B active, it is optimized...",
+	"nvidia/nemotron-3-ultra-550b-a55b:free": {
+		"displayName": "NVIDIA: Nemotron 3 Ultra (free)",
+		"description": "NVIDIA Nemotron 3 Ultra is an open frontier-reasoning and orchestration model from NVIDIA, with 55B active parameters out of 550B total (MoE). Built on a hybrid Transformer-Mamba mixture-of-experts architecture, it...",
 		"tier": "free",
 		"chatEnabled": true,
 		"chatRank": 230,
@@ -737,9 +737,9 @@
 			}
 		}
 	},
-	"poolside/laguna-s-2.1:free": {
-		"displayName": "Poolside: Laguna S 2.1 (free)",
-		"description": "Laguna S 2.1 is the latest coding agent model from [Poolside](<https://poolside.ai/>). Laguna S 2.1 is a 118B total parameter model with 8B active parameters, scoring 70.2% on Terminal-Bench 2.1 and...",
+	"cohere/north-mini-code:free": {
+		"displayName": "Cohere: North Mini Code (free)",
+		"description": "North Mini Code is Cohere's first agentic coding model and the debut of its North family. A sparse mixture-of-experts model with 30B total parameters and 3B active, it is optimized...",
 		"tier": "free",
 		"chatEnabled": true,
 		"chatRank": 240,
